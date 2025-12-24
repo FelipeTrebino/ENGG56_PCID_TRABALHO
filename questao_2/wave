@@ -1,0 +1,43 @@
+onerror {resume}
+quietly WaveActivateNextPane {} 0
+add wave -noupdate -divider TOP
+add wave -noupdate /Testbench/dut/Clock
+add wave -noupdate /Testbench/dut/Reset
+add wave -noupdate /Testbench/dut/Ready
+add wave -noupdate -divider FSM
+add wave -noupdate -radix hexadecimal /Testbench/dut/fsm/current_state
+add wave -noupdate -radix hexadecimal /Testbench/dut/fsm/next_state
+add wave -noupdate -radix hexadecimal /Testbench/dut/fsm/acc_counter
+add wave -noupdate -radix hexadecimal /Testbench/dut/fsm/block_counter
+add wave -noupdate /Testbench/dut/fsm/Load
+add wave -noupdate /Testbench/dut/fsm/Clear
+add wave -noupdate /Testbench/dut/fsm/Transfer
+add wave -noupdate -divider RAM
+add wave -noupdate -radix hexadecimal /Testbench/dut/fsm/Address
+add wave -noupdate /Testbench/dut/fsm/ReadEnable
+add wave -noupdate /Testbench/dut/fsm/WriteEnable
+add wave -noupdate -radix hexadecimal /Testbench/dut/DataOut
+add wave -noupdate -radix hexadecimal /Testbench/dut/DataIN
+add wave -noupdate -divider Acumulador
+add wave -noupdate -radix hexadecimal /Testbench/dut/acumulador/A
+add wave -noupdate -radix hexadecimal /Testbench/dut/acumulador/B
+add wave -noupdate -radix hexadecimal /Testbench/dut/acumulador/S
+add wave -noupdate -childformat {{{/Testbench/sram[0]} -radix hexadecimal} {{/Testbench/sram[1]} -radix hexadecimal} {{/Testbench/sram[2]} -radix hexadecimal} {{/Testbench/sram[3]} -radix hexadecimal} {{/Testbench/sram[4]} -radix hexadecimal} {{/Testbench/sram[5]} -radix hexadecimal} {{/Testbench/sram[6]} -radix hexadecimal} {{/Testbench/sram[7]} -radix hexadecimal} {{/Testbench/sram[8]} -radix hexadecimal} {{/Testbench/sram[9]} -radix hexadecimal} {{/Testbench/sram[10]} -radix hexadecimal} {{/Testbench/sram[11]} -radix hexadecimal} {{/Testbench/sram[12]} -radix hexadecimal} {{/Testbench/sram[13]} -radix hexadecimal} {{/Testbench/sram[14]} -radix hexadecimal} {{/Testbench/sram[15]} -radix hexadecimal} {{/Testbench/sram[16]} -radix hexadecimal} {{/Testbench/sram[17]} -radix hexadecimal} {{/Testbench/sram[18]} -radix hexadecimal} {{/Testbench/sram[19]} -radix hexadecimal} {{/Testbench/sram[20]} -radix hexadecimal} {{/Testbench/sram[21]} -radix hexadecimal} {{/Testbench/sram[22]} -radix hexadecimal} {{/Testbench/sram[23]} -radix hexadecimal} {{/Testbench/sram[24]} -radix hexadecimal} {{/Testbench/sram[25]} -radix hexadecimal} {{/Testbench/sram[26]} -radix hexadecimal} {{/Testbench/sram[27]} -radix hexadecimal} {{/Testbench/sram[28]} -radix hexadecimal} {{/Testbench/sram[29]} -radix hexadecimal} {{/Testbench/sram[30]} -radix hexadecimal} {{/Testbench/sram[31]} -radix hexadecimal}} -expand -subitemconfig {{/Testbench/sram[0]} {-radix hexadecimal} {/Testbench/sram[1]} {-radix hexadecimal} {/Testbench/sram[2]} {-radix hexadecimal} {/Testbench/sram[3]} {-radix hexadecimal} {/Testbench/sram[4]} {-radix hexadecimal} {/Testbench/sram[5]} {-radix hexadecimal} {/Testbench/sram[6]} {-radix hexadecimal} {/Testbench/sram[7]} {-radix hexadecimal} {/Testbench/sram[8]} {-radix hexadecimal} {/Testbench/sram[9]} {-radix hexadecimal} {/Testbench/sram[10]} {-radix hexadecimal} {/Testbench/sram[11]} {-radix hexadecimal} {/Testbench/sram[12]} {-radix hexadecimal} {/Testbench/sram[13]} {-radix hexadecimal} {/Testbench/sram[14]} {-radix hexadecimal} {/Testbench/sram[15]} {-radix hexadecimal} {/Testbench/sram[16]} {-radix hexadecimal} {/Testbench/sram[17]} {-radix hexadecimal} {/Testbench/sram[18]} {-radix hexadecimal} {/Testbench/sram[19]} {-radix hexadecimal} {/Testbench/sram[20]} {-radix hexadecimal} {/Testbench/sram[21]} {-radix hexadecimal} {/Testbench/sram[22]} {-radix hexadecimal} {/Testbench/sram[23]} {-radix hexadecimal} {/Testbench/sram[24]} {-radix hexadecimal} {/Testbench/sram[25]} {-radix hexadecimal} {/Testbench/sram[26]} {-radix hexadecimal} {/Testbench/sram[27]} {-radix hexadecimal} {/Testbench/sram[28]} {-radix hexadecimal} {/Testbench/sram[29]} {-radix hexadecimal} {/Testbench/sram[30]} {-radix hexadecimal} {/Testbench/sram[31]} {-radix hexadecimal}} /Testbench/sram
+TreeUpdate [SetDefaultTree]
+WaveRestoreCursors {{Cursor 1} {2040090 ps} 0}
+quietly wave cursor active 1
+configure wave -namecolwidth 150
+configure wave -valuecolwidth 118
+configure wave -justifyvalue left
+configure wave -signalnamewidth 1
+configure wave -snapdistance 10
+configure wave -datasetprefix 0
+configure wave -rowmargin 4
+configure wave -childrowmargin 2
+configure wave -gridoffset 0
+configure wave -gridperiod 1
+configure wave -griddelta 40
+configure wave -timeline 0
+configure wave -timelineunits ps
+update
+WaveRestoreZoom {1551301 ps} {3374917 ps}

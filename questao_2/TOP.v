@@ -6,7 +6,7 @@ output Ready;
 input [15:0] DataOut; 
 output [15:0] DataIN;
 output ReadEnable, WriteEnable;
-output [5:0] Address; // Memória de 32 bits de profundidade 2^5 = 32
+output [4:0] Address; // Memória de 32 bits de profundidade 2^5 = 32
 
 wire [15:0] Acumulador_DataOut;
 
