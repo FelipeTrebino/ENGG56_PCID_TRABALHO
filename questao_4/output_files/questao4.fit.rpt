@@ -1,5 +1,5 @@
 Fitter report for questao4
-Sun Dec 28 10:36:36 2025
+Mon Dec 29 17:37:39 2025
 Quartus Prime Version 20.1.1 Build 720 11/11/2020 SJ Lite Edition
 
 
@@ -63,7 +63,7 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------------------------------------------------------+
 ; Fitter Summary                                                                   ;
 +------------------------------------+---------------------------------------------+
-; Fitter Status                      ; Successful - Sun Dec 28 10:36:36 2025       ;
+; Fitter Status                      ; Successful - Mon Dec 29 17:37:39 2025       ;
 ; Quartus Prime Version              ; 20.1.1 Build 720 11/11/2020 SJ Lite Edition ;
 ; Revision Name                      ; questao4                                    ;
 ; Top-level Entity Name              ; TrafficController                           ;
@@ -1481,12 +1481,12 @@ Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
-Info (11218): Fitter post-fit operations ending: elapsed time is 00:00:01
+Info (11218): Fitter post-fit operations ending: elapsed time is 00:00:00
 Info (144001): Generated suppressed messages file C:/ENGG56/ENGG56_PCID_TRABALHO/questao_4/output_files/questao4.fit.smsg
 Info: Quartus Prime Fitter was successful. 0 errors, 6 warnings
-    Info: Peak virtual memory: 6304 megabytes
-    Info: Processing ended: Sun Dec 28 10:36:36 2025
-    Info: Elapsed time: 00:00:05
+    Info: Peak virtual memory: 6295 megabytes
+    Info: Processing ended: Mon Dec 29 17:37:40 2025
+    Info: Elapsed time: 00:00:09
     Info: Total CPU time (on all processors): 00:00:10
 
 
