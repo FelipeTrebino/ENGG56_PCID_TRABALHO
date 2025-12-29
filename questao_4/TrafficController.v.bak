@@ -1,0 +1,24 @@
+/*
+ * Questão 4 - Controlador de Tráfego Otimizado
+ * Entradas: Sensores A, B (Via Secundária), C, D (Via Principal)
+ * Saídas: L_O (Verde Leste-Oeste), N_S (Verde Norte-Sul)
+ */
+module TrafficController (
+    input wire A,
+    input wire B,
+    input wire C,
+    input wire D,
+    output wire L_O,
+    output wire N_S
+);
+
+    // Implementação da lógica otimizada via Mapa de Karnaugh:
+    // L_O é 1 (Verde) se houver carro na via principal (C ou D)
+    // OU se a via secundária estiver vazia (!A e !B).
+    assign L_O = C | D | (~A & ~B);
+
+    // Garantia de segurança: N_S é o inverso de L_O
+    // Isso satisfaz a regra: "Não deixe ambos sinais verdes ou vermelhos simultaneamente"
+    assign N_S = ~L_O;
+
+endmodule

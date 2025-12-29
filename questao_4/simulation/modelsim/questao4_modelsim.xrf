@@ -1,0 +1,17 @@
+vendor_name = ModelSim
+source_file = 1, C:/ENGG56/ENGG56_PCID_TRABALHO/questao_4/TrafficController.v
+source_file = 1, C:/ENGG56/ENGG56_PCID_TRABALHO/questao_4/Waveform.vwf
+source_file = 1, C:/ENGG56/ENGG56_PCID_TRABALHO/questao_4/tb_TrafficController.v
+source_file = 1, C:/ENGG56/ENGG56_PCID_TRABALHO/questao_4/db/questao4.cbx.xml
+design_name = TrafficController
+instance = comp, \L_O~output , L_O~output, TrafficController, 1
+instance = comp, \N_S~output , N_S~output, TrafficController, 1
+instance = comp, \D~input , D~input, TrafficController, 1
+instance = comp, \A~input , A~input, TrafficController, 1
+instance = comp, \B~input , B~input, TrafficController, 1
+instance = comp, \C~input , C~input, TrafficController, 1
+instance = comp, \L_O~0 , L_O~0, TrafficController, 1
+design_name = hard_block
+instance = comp, \~ALTERA_ASDO_DATA1~~ibuf , ~ALTERA_ASDO_DATA1~~ibuf, hard_block, 1
+instance = comp, \~ALTERA_FLASH_nCE_nCSO~~ibuf , ~ALTERA_FLASH_nCE_nCSO~~ibuf, hard_block, 1
+instance = comp, \~ALTERA_DATA0~~ibuf , ~ALTERA_DATA0~~ibuf, hard_block, 1
