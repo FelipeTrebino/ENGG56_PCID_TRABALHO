@@ -1,0 +1,60 @@
+m255
+K4
+z2
+!s11f vlog 2020.1 2020.02, Feb 28 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/ENGG56/ENGG56_PCID_TRABALHO/questao_1/simulation/modelsim
+vRemoteController
+!s110 1766980055
+!i10b 1
+!s100 iE^?WYRDo@BU:a8Tfe<@_2
+Z1 !s11b Dg1SIo80bB@j0V0VzS_@n1
+I>iHGU>eiHm0TFl<h>T]O`1
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+R0
+w1766935322
+8C:/ENGG56/ENGG56_PCID_TRABALHO/questao_1/RemoteController.v
+FC:/ENGG56/ENGG56_PCID_TRABALHO/questao_1/RemoteController.v
+!i122 0
+L0 1 109
+Z3 OV;L;2020.1;71
+r1
+!s85 0
+31
+!s108 1766980055.000000
+!s107 C:/ENGG56/ENGG56_PCID_TRABALHO/questao_1/RemoteController.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/ENGG56/ENGG56_PCID_TRABALHO/questao_1|C:/ENGG56/ENGG56_PCID_TRABALHO/questao_1/RemoteController.v|
+!i113 1
+o-vlog01compat -work work
+!s92 -vlog01compat -work work +incdir+C:/ENGG56/ENGG56_PCID_TRABALHO/questao_1
+Z4 tCvgOpt 0
+n@remote@controller
+vtb_RemoteController
+!s110 1766980076
+!i10b 1
+!s100 T15G2];CaiBN]591<dWD[2
+R1
+I[ze9XN=F2LBYB;IDO3PY51
+R2
+R0
+w1766935433
+8C:/ENGG56/ENGG56_PCID_TRABALHO/questao_1/tb_RemoteController.v
+FC:/ENGG56/ENGG56_PCID_TRABALHO/questao_1/tb_RemoteController.v
+!i122 1
+L0 3 77
+R3
+r1
+!s85 0
+31
+!s108 1766980076.000000
+!s107 C:/ENGG56/ENGG56_PCID_TRABALHO/questao_1/tb_RemoteController.v|
+!s90 -reportprogress|300|-work|work|C:/ENGG56/ENGG56_PCID_TRABALHO/questao_1/tb_RemoteController.v|
+!i113 1
+o-work work
+R4
+ntb_@remote@controller
