@@ -1,0 +1,57 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "Tecla[0]",
+					"strict" : false
+				},
+				{
+					"name" : "Tecla[1]",
+					"strict" : false
+				},
+				{
+					"name" : "Tecla[2]",
+					"strict" : false
+				},
+				{
+					"name" : "Tecla[3]",
+					"strict" : false
+				},
+				{
+					"name" : "Tecla[4]",
+					"strict" : false
+				},
+				{
+					"name" : "Tecla[5]",
+					"strict" : false
+				},
+				{
+					"name" : "Tecla[6]",
+					"strict" : false
+				},
+				{
+					"name" : "Tecla[7]",
+					"strict" : false
+				},
+				{
+					"name" : "Ready",
+					"strict" : false
+				},
+				{
+					"name" : "Clock",
+					"strict" : false
+				},
+				{
+					"name" : "Reset",
+					"strict" : false
+				},
+				{
+					"name" : "Serial",
+					"strict" : false
+				}
+			]
+		}
+	]
+}

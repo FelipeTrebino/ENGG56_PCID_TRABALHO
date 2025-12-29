@@ -1,0 +1,51 @@
+# Reading pref.tcl
+# do questao1_run_msim_rtl_verilog.do
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Model Technology ModelSim - Intel FPGA Edition vmap 2020.1 Lib Mapping Utility 2020.02 Feb 28 2020
+# vmap work rtl_work 
+# Copying C:/intelFPGA_lite/20.1/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# 
+# vlog -vlog01compat -work work +incdir+C:/ENGG56/ENGG56_PCID_TRABALHO/questao_1 {C:/ENGG56/ENGG56_PCID_TRABALHO/questao_1/RemoteController.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 00:47:35 on Dec 29,2025
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/ENGG56/ENGG56_PCID_TRABALHO/questao_1" C:/ENGG56/ENGG56_PCID_TRABALHO/questao_1/RemoteController.v 
+# -- Compiling module RemoteController
+# 
+# Top level modules:
+# 	RemoteController
+# End time: 00:47:35 on Dec 29,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+vlog -reportprogress 300 -work work C:/ENGG56/ENGG56_PCID_TRABALHO/questao_1/tb_RemoteController.v
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 00:47:56 on Dec 29,2025
+# vlog -reportprogress 300 -work work C:/ENGG56/ENGG56_PCID_TRABALHO/questao_1/tb_RemoteController.v 
+# -- Compiling module tb_RemoteController
+# 
+# Top level modules:
+# 	tb_RemoteController
+# End time: 00:47:56 on Dec 29,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim work.tb_RemoteController
+# vsim work.tb_RemoteController 
+# Start time: 00:48:01 on Dec 29,2025
+# Loading work.tb_RemoteController
+# Loading work.RemoteController
+add wave -position end  sim:/tb_RemoteController/Clock
+add wave -position end  sim:/tb_RemoteController/Reset
+add wave -position end  sim:/tb_RemoteController/Serial
+add wave -position end  sim:/tb_RemoteController/Tecla
+add wave -position end  sim:/tb_RemoteController/Ready
+run -all
+# Iniciando Teste RemoteController...
+# Testando erro de validacao...
+# ** Note: $stop    : C:/ENGG56/ENGG56_PCID_TRABALHO/questao_1/tb_RemoteController.v(76)
+#    Time: 1430 ns  Iteration: 0  Instance: /tb_RemoteController
+# Break in Module tb_RemoteController at C:/ENGG56/ENGG56_PCID_TRABALHO/questao_1/tb_RemoteController.v line 76
+# End time: 01:00:16 on Dec 29,2025, Elapsed time: 0:12:15
+# Errors: 0, Warnings: 0
