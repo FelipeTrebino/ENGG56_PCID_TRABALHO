@@ -1,5 +1,5 @@
 Analysis & Synthesis report for questao4
-Sun Dec 28 10:36:30 2025
+Mon Dec 29 17:37:30 2025
 Quartus Prime Version 20.1.1 Build 720 11/11/2020 SJ Lite Edition
 
 
@@ -43,7 +43,7 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Sun Dec 28 10:36:30 2025       ;
+; Analysis & Synthesis Status        ; Successful - Mon Dec 29 17:37:29 2025       ;
 ; Quartus Prime Version              ; 20.1.1 Build 720 11/11/2020 SJ Lite Edition ;
 ; Revision Name                      ; questao4                                    ;
 ; Top-level Entity Name              ; TrafficController                           ;
@@ -259,14 +259,14 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 20.1.1 Build 720 11/11/2020 SJ Lite Edition
-    Info: Processing started: Sun Dec 28 10:36:24 2025
+    Info: Processing started: Mon Dec 29 17:37:23 2025
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off questao4 -c questao4
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 12 of the 12 processors detected
 Info (12021): Found 1 design units, including 1 entities, in source file trafficcontroller.v
     Info (12023): Found entity 1: TrafficController File: C:/ENGG56/ENGG56_PCID_TRABALHO/questao_4/TrafficController.v Line: 1
 Info (12021): Found 1 design units, including 1 entities, in source file tb_trafficcontroller.v
-    Info (12023): Found entity 1: tb_TrafficController_Full File: C:/ENGG56/ENGG56_PCID_TRABALHO/questao_4/tb_TrafficController.v Line: 3
+    Info (12023): Found entity 1: tb_TrafficController File: C:/ENGG56/ENGG56_PCID_TRABALHO/questao_4/tb_TrafficController.v Line: 3
 Info (12127): Elaborating entity "TrafficController" for the top level hierarchy
 Info (286030): Timing-Driven Synthesis is running
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
@@ -277,8 +277,8 @@ Info (21057): Implemented 7 device resources after synthesis - the final resourc
     Info (21061): Implemented 1 logic cells
 Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 1 warning
     Info: Peak virtual memory: 4778 megabytes
-    Info: Processing ended: Sun Dec 28 10:36:30 2025
-    Info: Elapsed time: 00:00:06
-    Info: Total CPU time (on all processors): 00:00:13
+    Info: Processing ended: Mon Dec 29 17:37:30 2025
+    Info: Elapsed time: 00:00:07
+    Info: Total CPU time (on all processors): 00:00:12
 
 
