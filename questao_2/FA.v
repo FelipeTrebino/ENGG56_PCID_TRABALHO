@@ -2,7 +2,7 @@ module FA(A, B, S, CIn, COut); // 1 bit Full Adder
 
 input A,B; // A + B
 input CIn; // Carry In
-output reg S, COut; // Sa�da, Carry Out
+output reg S, COut; // Saída, Carry Out
 
 always @(*)
 begin

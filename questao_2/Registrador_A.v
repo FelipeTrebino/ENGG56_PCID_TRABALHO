@@ -15,4 +15,4 @@ begin
 		A <= D;
 	end
 end
-endmodule;
+endmodule

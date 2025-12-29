@@ -40,4 +40,4 @@ module FA16(CIn, COut, A, B, S);
         .S(S[15:12])
     );
 
-endmodule;
+endmodule

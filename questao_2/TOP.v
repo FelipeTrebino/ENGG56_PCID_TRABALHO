@@ -17,4 +17,4 @@ Acumulador acumulador(.DataIN(DataOut), .Load(Load), .Clear(Clear), .Transfer(Tr
 
 assign DataIN = Acumulador_DataOut; // Saída do TOP
 
-endmodule;
+endmodule

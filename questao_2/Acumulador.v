@@ -18,4 +18,4 @@ Registrador_A reg_a(.Clock(Transfer), .Clear(Clear), .D(S), .A(A)); // Registrad
 
 assign DataOut = A;
 
-endmodule;
+endmodule

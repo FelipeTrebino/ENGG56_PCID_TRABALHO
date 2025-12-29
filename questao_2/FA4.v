@@ -12,4 +12,4 @@ FA fa2(.A(A[1]),.B(B[1]),.CIn(C1),.COut(C2),.S(S[1]));
 FA fa3(.A(A[2]),.B(B[2]),.CIn(C2),.COut(C3),.S(S[2]));
 FA fa4(.A(A[3]),.B(B[3]),.CIn(C3),.COut(COut),.S(S[3]));
 
-endmodule; 
+endmodule

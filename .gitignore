@@ -1,0 +1,29 @@
+# Quartus generated folders
+/questao_2/db/
+/questao_2/incremental_db/
+/questao_2/output_files/
+/questao_2/greybox_tmp/
+/questao_2/hc_output/
+/questao_2/layout/
+
+# Quartus generated files
+*.bak
+*.orig
+*.qws
+*.done
+*.rpt
+*.summary
+*.smsg
+*.jdi
+*.sld
+*.pin
+*.sof
+*.pof
+*.qdf
+
+# ModelSim generated files/folders
+/questao_2/work/
+/questao_2/transcript
+vsim.wlf
+*.mpf
+*.mti
