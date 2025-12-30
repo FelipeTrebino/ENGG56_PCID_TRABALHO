@@ -1,19 +1,30 @@
 module RemoteController (
-    input wire Clock,
-    input wire Reset,     // Reset Assíncrono (Externo)
-    input wire Serial,    // Entrada Serial Assíncrona
+    input wire Clock,     // 304 kHz
+    input wire Reset,     // Reset Assíncrono
+    input wire Serial,    // 38 kHz (Dados)
     output reg [7:0] Tecla,
     output reg Ready
 );
 
     // =========================================================================
+    // 0. DEFINIÇÕES GERAIS (Movido para o topo para evitar erros)
+    // =========================================================================
+    
+    // Parâmetros de Estado
+    parameter IDLE      = 2'b00;
+    parameter READ_DATA = 2'b01;
+    parameter CHECK     = 2'b10;
+    parameter OUTPUT    = 2'b11;
+
+    // Registradores de Estado
+    reg [1:0] current_state, next_state;
+
+    // =========================================================================
     // 1. RESET SYNCHRONIZER
-    // Transforma o reset externo assíncrono em um reset síncrono interno.
     // =========================================================================
     reg rst_ff1, rst_ff2;
-    wire sys_rst; // Este é o reset que o resto do circuito vai usar
+    wire sys_rst;
 
-    // Estrutura: "Assert Asynchronously, Deassert Synchronously"
     always @(posedge Clock or posedge Reset) begin
         if (Reset) begin
             rst_ff1 <= 1'b1;
@@ -23,165 +34,135 @@ module RemoteController (
             rst_ff2 <= rst_ff1;
         end
     end
-    
-    assign sys_rst = rst_ff2; // Sinal limpo para o sistema
+    assign sys_rst = rst_ff2;
 
     // =========================================================================
-    // 2. DETECTOR DE BORDA (Sincronizador de Entrada)
-    // Baseado no seu desenho: FF1 -> FF2(Nov) -> FF3(Ant) -> Lógica AND
+    // 2. DETECTOR DE BORDA E SINCRONIZADOR
     // =========================================================================
-    reg ff1;
-    reg nov;      // Sinal Atual Estável
-    reg ant;      // Sinal Anterior (atrasado em 1 clock)
+    reg ff1, nov, ant;
     wire falling_edge;
 
     always @(posedge Clock) begin
         if (sys_rst) begin
-            ff1 <= 1'b1; // Reset para 1 (Repouso do IR é High)
+            ff1 <= 1'b1;
             nov <= 1'b1;
             ant <= 1'b1;
         end else begin
-            ff1 <= Serial; // Estágio 1 de sincronização
-            nov <= ff1;    // Estágio 2 (Sinal limpo)
-            ant <= nov;    // Memória do estado anterior
+            ff1 <= Serial;
+            nov <= ff1;
+            ant <= nov;
+        end
+    end
+    
+    // Detecta quando o sinal cai de 1 para 0
+    assign falling_edge = (~nov & ant);
+
+    // =========================================================================
+    // 3. GERADOR DE BAUD RATE (DIVISOR DE FREQUÊNCIA)
+    // =========================================================================
+    // Agora este bloco vai compilar porque 'current_state' e 'IDLE' 
+    // já foram declarados lá no topo (Bloco 0).
+    
+    reg [2:0] baud_cnt;   
+    wire sample_tick;     
+
+    assign sample_tick = (baud_cnt == 3'd3);
+
+    always @(posedge Clock) begin
+        if (sys_rst) begin
+            baud_cnt <= 3'd0;
+        end else begin
+            // Reseta contador se detectar borda no estado IDLE
+            if (falling_edge && current_state == IDLE) 
+                baud_cnt <= 3'd0;
+            else
+                baud_cnt <= baud_cnt + 1'b1;
         end
     end
 
-    // Lógica Combinacional do Detector: (Ant == 1) AND (Nov == 0)
-    assign falling_edge = (~nov & ant);
-
-
     // =========================================================================
-    // 3. MÁQUINA DE ESTADOS FINITOS (FSM)
+    // 4. MÁQUINA DE ESTADOS FINITOS (FSM) - LÓGICA
     // =========================================================================
     
-    // Parâmetros de Estado
-    parameter IDLE      = 2'b00;
-    parameter READ_DATA = 2'b01;
-    parameter CHECK     = 2'b10;
-    parameter OUTPUT    = 2'b11;
-
-    reg [1:0] current_state, next_state;
-
-    // Registradores de Dados (Datapath)
+    // Datapath
     reg [31:0] shift_register;
     reg [5:0]  bit_cnt;
     reg [1:0]  pulse_cnt;
 
-    // Fios auxiliares para leitura do pacote (Baseado no PDF)
     wire [7:0] DataCode        = shift_register[15:8];
     wire [7:0] InverseDataCode = shift_register[7:0];
 
-    // -------------------------------------------------------------------------
-    // A) Memória de Estado (Sequencial)
-    // Atualiza o estado atual na borda do clock
-    // -------------------------------------------------------------------------
+    // A) Atualização de Estado
     always @(posedge Clock) begin
-        if (sys_rst) begin
-            current_state <= IDLE;
-        end else begin
-            current_state <= next_state;
-        end
+        if (sys_rst) current_state <= IDLE;
+        else         current_state <= next_state;
     end
 
-    // -------------------------------------------------------------------------
-    // B) Codificador de Próximo Estado (Combinacional)
-    // Decide para onde ir baseado no estado atual e nas entradas
-    // -------------------------------------------------------------------------
+    // B) Lógica de Próximo Estado
     always @(*) begin
-        // Valor padrão para evitar latches
-        next_state = current_state;
-
+        next_state = current_state; 
         case (current_state)
             IDLE: begin
-                // Se detectou borda de descida (Start Bit), vai ler
-                if (falling_edge) 
-                    next_state = READ_DATA;
-                else
-                    next_state = IDLE;
+                if (falling_edge) next_state = READ_DATA;
+                else              next_state = IDLE;
             end
 
             READ_DATA: begin
-                // Se já leu 32 bits (0 a 31), vai checar
-                if (bit_cnt == 6'd31) 
-                    next_state = CHECK;
-                else
-                    next_state = READ_DATA;
+                if (bit_cnt == 6'd32) next_state = CHECK;
+                else                  next_state = READ_DATA;
             end
 
             CHECK: begin
-                // Verifica integridade: Dado == ~Inverso
-                if (DataCode == ~InverseDataCode)
-                    next_state = OUTPUT;
-                else
-                    next_state = IDLE; // Erro: volta para o início
+                if (DataCode == ~InverseDataCode) next_state = OUTPUT;
+                else                              next_state = IDLE;
             end
 
             OUTPUT: begin
-                // Conta 3 pulsos (0, 1, 2) e sai
-                if (pulse_cnt == 2'd2)
-                    next_state = IDLE;
-                else
-                    next_state = OUTPUT;
+                if (pulse_cnt == 2'd2) next_state = IDLE;
+                else                   next_state = OUTPUT;
             end
             
             default: next_state = IDLE;
         endcase
     end
 
+    // C) Saída Combinacional (Ready)
     always @(*) begin
-        if (current_state == OUTPUT) begin
-            Ready = 1'b1;
-            Tecla = DataCode;
-        end else begin
-            Tecla = 8'd0;
-            Ready = 1'b0;
-        end
+        if (current_state == OUTPUT) Ready = 1'b1;
+        else                         Ready = 1'b0;
     end
-    // -------------------------------------------------------------------------
-    // C) Lógica de Saída e Datapath (Sequencial)
-    // Controla os registradores, contadores e saídas
-    // -------------------------------------------------------------------------
+
+    // D) Datapath Sequencial
     always @(posedge Clock) begin
         if (sys_rst) begin
             shift_register <= 32'd0;
             bit_cnt        <= 6'd0;
             pulse_cnt      <= 2'd0;
-            //Ready          <= 1'b0;
-            //Tecla          <= 8'd0;
+            Tecla          <= 8'd0;
         end else begin
             case (current_state)
                 IDLE: begin
-                    //Ready     <= 1'b0;
                     pulse_cnt <= 2'd0;
                     bit_cnt   <= 6'd0;
-                    // O shift_register não precisa ser zerado, será sobrescrito
                 end
 
                 READ_DATA: begin
-                    // IMPORTANTE: Aqui usamos o sinal sincronizado 'nov' em vez do 'Serial' bruto
-                    shift_register <= {shift_register[30:0], nov};
-                    
-                    // Incrementa contador apenas se não mudou de estado (lógica simplificada)
-                    // Na prática, em FSM de 3 processos, contadores precisam de cuidado.
-                    // Aqui, incrementamos incondicionalmente enquanto estivermos em READ_DATA
-                    if (bit_cnt < 6'd32) 
-                        bit_cnt <= bit_cnt + 1'b1;
+                    if (sample_tick) begin
+                        shift_register <= {shift_register[30:0], nov};
+                        if (bit_cnt < 6'd32)
+                            bit_cnt <= bit_cnt + 1'b1;
+                    end
                 end
 
                 CHECK: begin
-                    // Se a validação do próximo estado for passar, já preparamos a Tecla
                     if (DataCode == ~InverseDataCode) begin
-                        //Tecla <= DataCode;
+                        Tecla <= DataCode;
                     end
                 end
 
                 OUTPUT: begin
-                    //Ready <= 1'b1;
                     if (pulse_cnt < 2'd2)
                         pulse_cnt <= pulse_cnt + 1'b1;
-                    else
-                        //Ready <= 1'b0; // Prepara para desligar na transição
                 end
             endcase
         end
