@@ -1,4 +1,4 @@
-`timescale 1ns/1ps
+`timescale 1ns/1ns
 
 module Testbench();
 
@@ -63,7 +63,7 @@ module Testbench();
         $display("Resultado Bloco 3 (End 23): %0d", sram[23]);
         $display("Resultado Bloco 4 (End 31): %0d", sram[31]);
 
-        #100 $stop;
+        #1000 $stop;
     end
 
 endmodule

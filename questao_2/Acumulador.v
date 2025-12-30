@@ -1,7 +1,7 @@
-module Acumulador(DataIN, Load, Clear, Transfer, DataOut);
+module Acumulador(Clock, DataIN, Load, Clear, Transfer, DataOut);
 
 input [15:0] DataIN;
-input Load, Clear, Transfer;
+input Load, Clear, Transfer, Clock;
 
 output [15:0] DataOut;
 
@@ -10,11 +10,11 @@ wire [15:0] A; // Saída do Registrador A
 wire [15:0] S; // Saída de Soma do somador
 wire COut; // Saída de Carry do somador
 
-Registrador_B reg_b(.Clock(Load), .D(DataIN), .B(B)); // Registrador B (Carrega dados da memória)
+Registrador_B reg_b(.Clock(Clock), .Enable(Load), .D(DataIN), .B(B)); // Registrador B (Carrega dados da memória)
 
 FA16 fa16(.CIn(1'b0), .COut(COut), .A(A), .B(B), .S(S)); // Somador de 4 bits
 
-Registrador_A reg_a(.Clock(Transfer), .Clear(Clear), .D(S), .A(A)); // Registrador A (Acumulador)
+Registrador_A reg_a(.Clock(Clock), .Enable(Transfer) , .Clear(Clear), .D(S), .A(A)); // Registrador A (Acumulador)
 
 assign DataOut = A;
 

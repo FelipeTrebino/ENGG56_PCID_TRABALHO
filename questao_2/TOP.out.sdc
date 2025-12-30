@@ -39,7 +39,6 @@ set_time_format -unit ns -decimal_places 3
 # Create Clock
 #**************************************************************
 
-create_clock -name {altera_reserved_tck} -period 100.000 -waveform { 0.000 50.000 } [get_ports {altera_reserved_tck}]
 create_clock -name {CLK} -period 20.000 -waveform { 0.000 10.000 } [get_ports {CLOCK_50}]
 
 
@@ -58,43 +57,21 @@ create_clock -name {CLK} -period 20.000 -waveform { 0.000 10.000 } [get_ports {C
 #**************************************************************
 # Set Clock Uncertainty
 #**************************************************************
-
+derive_clock_uncertainty
 
 
 #**************************************************************
 # Set Input Delay
 #**************************************************************
 
-set_input_delay -add_delay  -clock [get_clocks {CLK}]  1.000 [get_ports {CLOCK_50}]
-set_input_delay -add_delay  -clock [get_clocks {CLK}]  1.000 [get_ports {SW[0]}]
-set_input_delay -add_delay  -clock [get_clocks {CLK}]  1.000 [get_ports {altera_reserved_tck}]
-set_input_delay -add_delay  -clock [get_clocks {CLK}]  1.000 [get_ports {altera_reserved_tdi}]
-set_input_delay -add_delay  -clock [get_clocks {CLK}]  1.000 [get_ports {altera_reserved_tms}]
+set_input_delay -clock [get_clocks {CLK}] 2.000 [all_inputs]
 
 
 #**************************************************************
 # Set Output Delay
 #**************************************************************
 
-set_output_delay -add_delay  -clock [get_clocks {CLK}]  1.000 [get_ports {LEDG[0]}]
-set_output_delay -add_delay  -clock [get_clocks {CLK}]  1.000 [get_ports {LEDR[0]}]
-set_output_delay -add_delay  -clock [get_clocks {CLK}]  1.000 [get_ports {LEDR[1]}]
-set_output_delay -add_delay  -clock [get_clocks {CLK}]  1.000 [get_ports {LEDR[2]}]
-set_output_delay -add_delay  -clock [get_clocks {CLK}]  1.000 [get_ports {LEDR[3]}]
-set_output_delay -add_delay  -clock [get_clocks {CLK}]  1.000 [get_ports {LEDR[4]}]
-set_output_delay -add_delay  -clock [get_clocks {CLK}]  1.000 [get_ports {LEDR[5]}]
-set_output_delay -add_delay  -clock [get_clocks {CLK}]  1.000 [get_ports {LEDR[6]}]
-set_output_delay -add_delay  -clock [get_clocks {CLK}]  1.000 [get_ports {LEDR[7]}]
-set_output_delay -add_delay  -clock [get_clocks {CLK}]  1.000 [get_ports {LEDR[8]}]
-set_output_delay -add_delay  -clock [get_clocks {CLK}]  1.000 [get_ports {LEDR[9]}]
-set_output_delay -add_delay  -clock [get_clocks {CLK}]  1.000 [get_ports {LEDR[10]}]
-set_output_delay -add_delay  -clock [get_clocks {CLK}]  1.000 [get_ports {LEDR[11]}]
-set_output_delay -add_delay  -clock [get_clocks {CLK}]  1.000 [get_ports {LEDR[12]}]
-set_output_delay -add_delay  -clock [get_clocks {CLK}]  1.000 [get_ports {LEDR[13]}]
-set_output_delay -add_delay  -clock [get_clocks {CLK}]  1.000 [get_ports {LEDR[14]}]
-set_output_delay -add_delay  -clock [get_clocks {CLK}]  1.000 [get_ports {LEDR[15]}]
-set_output_delay -add_delay  -clock [get_clocks {CLK}]  1.000 [get_ports {altera_reserved_tdo}]
-
+set_output_delay -add_delay  -clock [get_clocks {CLK}]  2.000 [all_outputs]
 
 #**************************************************************
 # Set Clock Groups

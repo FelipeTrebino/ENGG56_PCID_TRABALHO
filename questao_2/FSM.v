@@ -20,8 +20,7 @@ reg [2:0] acc_counter;   // Contagem de 7 números (0 a 6)
 
 always @(*) begin
     Clear = 0; ReadEnable = 0; Load = 0; Ready = 0; 
-    Transfer = 0; WriteEnable = 0; Address = 5'b0;
-    next_state = current_state;
+    Transfer = 0; WriteEnable = 0;
 
     case(current_state)
         IDLE: begin
@@ -31,13 +30,11 @@ always @(*) begin
 
         SEND_ADDR: begin
             ReadEnable = 1'b1;
-            Address = (block_counter * 8) + acc_counter;
             next_state = WAIT_MEM;
         end
 
         WAIT_MEM: begin
             ReadEnable = 1'b1; // Mantém habilitado durante a latência da memória 
-            Address = (block_counter * 8) + acc_counter;
             next_state = LOAD_B;
         end
 
@@ -48,7 +45,7 @@ always @(*) begin
 
         ACCUMULATE: begin
             Transfer = 1'b1; // Soma B ao Acumulador e armazena em A
-            if (acc_counter == 3'd6) // Se completou 7 números
+            if (acc_counter == 3'd7) // Se completou 7 números
                 next_state = WRITE_RESULT;
             else
                 next_state = SEND_ADDR;
@@ -56,7 +53,6 @@ always @(*) begin
 
         WRITE_RESULT: begin
             WriteEnable = 1'b1;
-            Address = (block_counter * 8) + 5'd7; // Grava no endereço imediatamente seguinte (7, 15, 23 ou 31)
             next_state = NEXT_BLOCK;
         end
 
@@ -77,26 +73,36 @@ always @(*) begin
 end
 
 always @(posedge Clock) begin
+    
     if (!Reset) begin // Reset Síncrono
         current_state <= IDLE;
         block_counter <= 2'b0;
         acc_counter   <= 3'b0;
+        Address <= 0;
     end else begin
         current_state <= next_state;
+        case(next_state) 
+            SEND_ADDR: begin
+                Address <= (block_counter * 5'd8) + acc_counter;
+            end
 
-        if (current_state == ACCUMULATE) begin
-            if (acc_counter == 3'd6)
-                acc_counter <= 3'b0;
-            else
+            ACCUMULATE: begin
                 acc_counter <= acc_counter + 1'b1;
-        end
+            end
 
-        if (current_state == NEXT_BLOCK) begin
-            if (block_counter == 2'd3)
-                block_counter <= 2'b0;
-            else
-                block_counter <= block_counter + 1'b1;
-        end
+            WRITE_RESULT: begin
+                Address <= (block_counter * 5'd8) + acc_counter;
+            end
+
+            NEXT_BLOCK: begin
+                if (block_counter == 2'd3) begin
+                    block_counter <= 2'b0;
+                end else begin
+                    block_counter <= block_counter + 1'b1;
+                    acc_counter <= 3'b0;
+                end
+            end
+        endcase
     end
 end
 
