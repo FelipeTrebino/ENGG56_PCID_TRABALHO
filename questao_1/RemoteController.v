@@ -130,12 +130,13 @@ module RemoteController (
     end
 
     always @(*) begin
-        if (current_state == OUTPUT)
+        if (current_state == OUTPUT) begin
             Ready = 1'b1;
             Tecla = DataCode;
-        else
+        end else begin
             Tecla = 8'd0;
             Ready = 1'b0;
+        end
     end
     // -------------------------------------------------------------------------
     // C) Lógica de Saída e Datapath (Sequencial)
