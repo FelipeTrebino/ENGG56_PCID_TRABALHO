@@ -1,107 +1,169 @@
 module RemoteController (
-    input wire Clock,
-    input wire Reset,
-    input wire Serial,
+    input wire Clock,     // 304 kHz
+    input wire Reset,     // Reset Assíncrono
+    input wire Serial,    // 38 kHz (Dados)
     output reg [7:0] Tecla,
     output reg Ready
 );
 
-    // --- Definição dos Estados usando PARAMETER ---
-    // Isso facilita a leitura e depuração na simulação (o nome aparece na waveform)
-    parameter IDLE      = 2'b00; // Estado de espera (linha em repouso)
-    parameter READ_DATA = 2'b01; // Estado de leitura dos 32 bits de dados
-    parameter CHECK     = 2'b10; // Estado de verificação de integridade
-    parameter OUTPUT    = 2'b11; // Estado de envio do sinal de pronto
+    // =========================================================================
+    // 0. DEFINIÇÕES GERAIS (Movido para o topo para evitar erros)
+    // =========================================================================
+    
+    // Parâmetros de Estado
+    parameter IDLE      = 2'b00;
+    parameter READ_DATA = 2'b01;
+    parameter CHECK     = 2'b10;
+    parameter OUTPUT    = 2'b11;
 
-    // Variáveis de Estado
-    reg [1:0] state;
+    // Registradores de Estado
+    reg [1:0] current_state, next_state;
 
-    // Registradores Internos (Datapath)
-    reg [31:0] shifter;    // Armazena: Custom(16) + Key(8) + InvKey(8)
-    reg [5:0]  bit_cnt;    // Contador de bits (precisa ir até 32)
-    reg [1:0]  pulse_cnt;  // Contador para os 3 pulsos de saída
+    // =========================================================================
+    // 1. RESET SYNCHRONIZER
+    // =========================================================================
+    reg rst_ff1, rst_ff2;
+    wire sys_rst;
 
-    // Lógica Sequencial da FSM
     always @(posedge Clock or posedge Reset) begin
         if (Reset) begin
-            // Reset assíncrono: zera tudo
-            state     <= IDLE;
-            shifter   <= 32'd0;
-            bit_cnt   <= 6'd0;
-            pulse_cnt <= 2'd0;
-            Ready     <= 1'b0;
-            Tecla     <= 8'd0;
+            rst_ff1 <= 1'b1;
+            rst_ff2 <= 1'b1;
         end else begin
-            case (state)
-                
-                // ---------------------------------------------------------
-                // 1. IDLE: Espera o Lead Code (Start Bit = 0)
-                // ---------------------------------------------------------
+            rst_ff1 <= 1'b0;
+            rst_ff2 <= rst_ff1;
+        end
+    end
+    assign sys_rst = rst_ff2;
+
+    // =========================================================================
+    // 2. DETECTOR DE BORDA E SINCRONIZADOR
+    // =========================================================================
+    reg ff1, nov, ant;
+    wire falling_edge;
+
+    always @(posedge Clock) begin
+        if (sys_rst) begin
+            ff1 <= 1'b1;
+            nov <= 1'b1;
+            ant <= 1'b1;
+        end else begin
+            ff1 <= Serial;
+            nov <= ff1;
+            ant <= nov;
+        end
+    end
+    
+    // Detecta quando o sinal cai de 1 para 0
+    assign falling_edge = (~nov & ant);
+
+    // =========================================================================
+    // 3. GERADOR DE BAUD RATE (DIVISOR DE FREQUÊNCIA)
+    // =========================================================================
+    // Agora este bloco vai compilar porque 'current_state' e 'IDLE' 
+    // já foram declarados lá no topo (Bloco 0).
+    
+    reg [2:0] baud_cnt;   
+    wire sample_tick;     
+
+    assign sample_tick = (baud_cnt == 3'd3);
+
+    always @(posedge Clock) begin
+        if (sys_rst) begin
+            baud_cnt <= 3'd0;
+        end else begin
+            // Reseta contador se detectar borda no estado IDLE
+            if (falling_edge && current_state == IDLE) 
+                baud_cnt <= 3'd0;
+            else
+                baud_cnt <= baud_cnt + 1'b1;
+        end
+    end
+
+    // =========================================================================
+    // 4. MÁQUINA DE ESTADOS FINITOS (FSM) - LÓGICA
+    // =========================================================================
+    
+    // Datapath
+    reg [31:0] shift_register;
+    reg [5:0]  bit_cnt;
+    reg [1:0]  pulse_cnt;
+
+    wire [7:0] DataCode        = shift_register[15:8];
+    wire [7:0] InverseDataCode = shift_register[7:0];
+
+    // A) Atualização de Estado
+    always @(posedge Clock) begin
+        if (sys_rst) current_state <= IDLE;
+        else         current_state <= next_state;
+    end
+
+    // B) Lógica de Próximo Estado
+    always @(*) begin
+        next_state = current_state; 
+        case (current_state)
+            IDLE: begin
+                if (falling_edge) next_state = READ_DATA;
+                else              next_state = IDLE;
+            end
+
+            READ_DATA: begin
+                if (bit_cnt == 6'd32) next_state = CHECK;
+                else                  next_state = READ_DATA;
+            end
+
+            CHECK: begin
+                if (DataCode == ~InverseDataCode) next_state = OUTPUT;
+                else                              next_state = IDLE;
+            end
+
+            OUTPUT: begin
+                if (pulse_cnt == 2'd2) next_state = IDLE;
+                else                   next_state = OUTPUT;
+            end
+            
+            default: next_state = IDLE;
+        endcase
+    end
+
+    // C) Saída Combinacional (Ready)
+    always @(*) begin
+        if (current_state == OUTPUT) Ready = 1'b1;
+        else                         Ready = 1'b0;
+    end
+
+    // D) Datapath Sequencial
+    always @(posedge Clock) begin
+        if (sys_rst) begin
+            shift_register <= 32'd0;
+            bit_cnt        <= 6'd0;
+            pulse_cnt      <= 2'd0;
+            Tecla          <= 8'd0;
+        end else begin
+            case (current_state)
                 IDLE: begin
-                    Ready <= 1'b0;      // Garante que Ready está baixo
-                    pulse_cnt <= 2'd0;  // Reseta contador de pulso
-                    
-                    // O protocolo diz que Default é 1. O início é quando cai para 0.
-                    if (Serial == 1'b0) begin
-                        state   <= READ_DATA;
-                        bit_cnt <= 6'd0; // Prepara para contar 32 bits
-                    end
+                    pulse_cnt <= 2'd0;
+                    bit_cnt   <= 6'd0;
                 end
 
-                // ---------------------------------------------------------
-                // 2. READ_DATA: Captura serialmente 32 bits
-                // ---------------------------------------------------------
                 READ_DATA: begin
-                    // Shift Register: Entra pela direita (LSB), empurra para esquerda
-                    shifter <= {shifter[30:0], Serial};
-                    
-                    // Incrementa contador
-                    bit_cnt <= bit_cnt + 1'b1;
-
-                    // Se já leu 31 (0 a 31 = 32 bits), vai para checagem
-                    if (bit_cnt == 6'd31) begin
-                        state <= CHECK;
+                    if (sample_tick) begin
+                        shift_register <= {shift_register[30:0], nov};
+                        if (bit_cnt < 6'd32)
+                            bit_cnt <= bit_cnt + 1'b1;
                     end
                 end
 
-                // ---------------------------------------------------------
-                // 3. CHECK: Validação Lógica (Key == ~InvKey)
-                // ---------------------------------------------------------
                 CHECK: begin
-                    // Layout do Shifter após a leitura:
-                    // bits [31:16] = Custom Code (Ignoramos o valor)
-                    // bits [15:8]  = Key Code (O que queremos)
-                    // bits [7:0]   = Inv Key Code (Para checar erro)
-
-                    // A regra do enunciado é: Key e InvKey devem ser opostos
-                    if (shifter[15:8] == ~shifter[7:0]) begin
-                        Tecla <= shifter[15:8]; // Salva a tecla válida
-                        Ready <= 1'b1;          // Liga o aviso
-                        state <= OUTPUT;        // Vai para o estado de saída
-                    end else begin
-                        // Se falhou na validação (ruído), volta para esperar sem fazer nada
-                        state <= IDLE;
+                    if (DataCode == ~InverseDataCode) begin
+                        Tecla <= DataCode;
                     end
                 end
 
-                // ---------------------------------------------------------
-                // 4. OUTPUT: Segura o Ready por 3 clocks
-                // ---------------------------------------------------------
                 OUTPUT: begin
-                    // O enunciado pede: "Ready deverá ser ativada por 3 pulsos"
-                    // Já ativamos 1 pulso na transição anterior (CHECK->OUTPUT)
-                    // Agora contamos mais 2 clocks aqui.
-                    
-                    if (pulse_cnt < 2'd2) begin
+                    if (pulse_cnt < 2'd2)
                         pulse_cnt <= pulse_cnt + 1'b1;
-                        Ready     <= 1'b1; // Mantém ligado
-                    end else begin
-                        Ready     <= 1'b0; // Desliga
-                        state     <= IDLE; // Fim do ciclo, volta a esperar
-                    end
                 end
-
-                default: state <= IDLE;
             endcase
         end
     end
