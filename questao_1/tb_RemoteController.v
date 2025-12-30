@@ -2,16 +2,18 @@
 
 module tb_RemoteController;
 
-    // Entradas do DUT (Device Under Test)
+    // --- Entradas e Saídas do DUT ---
     reg Clock;
     reg Reset;
     reg Serial;
-
-    // Saídas do DUT
     wire [7:0] Tecla;
     wire Ready;
 
-    // Instanciação do Módulo
+    // --- Configuração de Clocks (304 kHz) ---
+    // Periodo = ~3289 ns
+    parameter CLK_PERIOD = 3289; 
+    
+    // Instanciação do DUT
     RemoteController uut (
         .Clock(Clock), 
         .Reset(Reset), 
@@ -20,104 +22,103 @@ module tb_RemoteController;
         .Ready(Ready)
     );
 
-    // Geração de Clock (Periodo = 10ns -> 100MHz)
-    always #5 Clock = ~Clock;
+    // Geração de Clock
+    always #(CLK_PERIOD/2) Clock = ~Clock;
 
-    // -------------------------------------------------------------------------
-    // TASK: Enviar Tecla
-    // Simula o envio de um pacote IR completo:
-    // 1. Baixa a linha (Start Bit)
-    // 2. Envia 16 bits de Custom Code + 8 bits Tecla + 8 bits Inverso
-    // -------------------------------------------------------------------------
+    // --- Definição dos Vetores de Teste ---
+    // Vamos testar 8 teclas diferentes
+    reg [7:0] lista_de_teclas [0:7]; 
+    integer k; // Variável para o loop
+
+    // --- TASK: Enviar Tecla ---
     task enviar_tecla;
-        input [15:0] custom_code;
-        input [7:0]  key_code;
+        input [15:0] custom_code; 
+        input [7:0]  key_code;    
         
         reg [31:0] pacote_completo;
         integer i;
         
         begin
-            // Monta o pacote: [Custom(16)] + [Key(8)] + [~Key(8)]
-            // O ~key_code é necessário para passar na verificação do estado CHECK
+            // Prepara o pacote (Custom + Key + ~Key)
             pacote_completo = {custom_code, key_code, ~key_code};
 
-            // 1. Start Bit: A linha fica LOW por 1 ciclo para tirar o DUT do IDLE
+            // 1. Lead Code (Start Bit)
             @(negedge Clock);
             Serial = 1'b0; 
             
-            // 2. Loop de envio dos 32 bits
-            // O DUT desloca {shifter, Serial}, então enviamos do MSB (bit 31) ao LSB
+            // 2. Envia os 32 bits
             for (i = 31; i >= 0; i = i - 1) begin
-                @(negedge Clock); // Muda o dado na borda de descida para estabilidade
+                @(negedge Clock); 
                 Serial = pacote_completo[i];
             end
 
-            // 3. Fim da transmissão: Volta para Idle (High)
+            // 3. Volta ao repouso
             @(negedge Clock);
             Serial = 1'b1;
 
-            // Aguarda alguns clocks para dar tempo do DUT processar (CHECK -> OUTPUT -> IDLE)
+            // Aguarda o processamento da FSM (alguns clocks)
             repeat(10) @(posedge Clock);
         end
     endtask
 
-    // -------------------------------------------------------------------------
-    // Bloco Principal de Teste
-    // -------------------------------------------------------------------------
+    // --- Bloco Principal de Teste ---
     initial begin
-        // Inicialização
+        // 1. Configuração Inicial
         Clock = 0;
         Reset = 1;
-        Serial = 1; // Protocolo NEC/IR geralmente é High quando ocioso
+        Serial = 1;
+        
+        // Define as teclas que queremos testar (Hexadecimal)
+        lista_de_teclas[0] = 8'h00; // Zero
+        lista_de_teclas[1] = 8'h01; // Um
+        lista_de_teclas[2] = 8'h1A; // Letra A
+        lista_de_teclas[3] = 8'hB2; // Letra B
+        lista_de_teclas[4] = 8'hFF; // Maximo valor
+        lista_de_teclas[5] = 8'h55; // Padrão 01010101
+        lista_de_teclas[6] = 8'hAA; // Padrão 10101010
+        lista_de_teclas[7] = 8'hC3; // Valor aleatório
 
-        // Reset do sistema
-        #20;
+        // Solta o Reset
+        #(CLK_PERIOD * 10);
         Reset = 0;
-        #20;
+        #(CLK_PERIOD * 10);
 
-        // --- TESTE 1: Tecla A (Código 0x1A) ---
-        $display("Enviando Tecla A (0x1A)...");
-        enviar_tecla(16'h00FF, 8'h1A);
-        
-        // Verifica se funcionou
-        if (Ready && Tecla == 8'h1A) 
-            $display("-> SUCESSO: Tecla 1A recebida!");
-        else 
-            $display("-> FALHA na Tecla 1A.");
+        $display("=== INICIANDO TESTE DE MULTIPLAS TECLAS ===");
 
-        // Espera um tempo entre cliques (simulando o usuário soltando o botão)
-        #100;
+        // 2. Loop Automático
+        for (k = 0; k < 8; k = k + 1) begin
+            
+            // A. Envia a tecla atual da lista
+            enviar_tecla(16'hFFFF, lista_de_teclas[k]);
 
-        // --- TESTE 2: Tecla B (Código 0xB2) ---
-        $display("Enviando Tecla B (0xB2)...");
-        enviar_tecla(16'h00FF, 8'hB2);
+            // B. Verificação Automática (Self-Checking)
+            // O sinal Ready deve estar ALTO e a Tecla deve bater com a lista
+            if (Ready == 1'b1 && Tecla == lista_de_teclas[k]) begin
+                $display("[PASS] Teste %0d: Enviado %h -> Recebido %h (OK)", k, lista_de_teclas[k], Tecla);
+            end else begin
+                $display("[FAIL] Teste %0d: Enviado %h -> Recebido %h (Ready=%b)", k, lista_de_teclas[k], Tecla, Ready);
+            end
 
-        if (Ready && Tecla == 8'hB2) 
-            $display("-> SUCESSO: Tecla B2 recebida!");
-        
-        #100;
+            // C. Aguarda um tempo entre as teclas (simula usuário soltando o botão)
+            #(CLK_PERIOD * 20); 
+        end
 
-        // --- TESTE 3: Tecla com Erro (Ruído) ---
-        // Aqui vamos forçar um erro enviando o Checksum errado manualmente
-        // O DUT deve ignorar e NÃO ativar o Ready
-        $display("Enviando Ruido (Checksum Invalido)...");
+        // 3. Teste Extra: Tecla Inválida (Para garantir que ele não aceita lixo)
+        $display("=== TESTE DE ROBUSTEZ (ERRO) ===");
         
         @(negedge Clock); Serial = 0; // Start
-        // Envia lixo: Custom(FFFF) + Key(55) + Checksum ERRADO (55 em vez de AA)
-        // Isso deve falhar no estado CHECK
-        repeat(32) begin
-            @(negedge Clock); Serial = 1'b1; // Enviando tudo 1
-        end
-        @(negedge Clock); Serial = 1'b1; // Volta a High
-
-        #50;
+        // Envia lixo (tudo 1)
+        repeat(32) @(negedge Clock) Serial = 1; 
+        @(negedge Clock) Serial = 1;
+        
+        #(CLK_PERIOD * 10);
         
         if (Ready == 0) 
-            $display("-> SUCESSO: Ruido ignorado corretamente.");
-        else
-            $display("-> FALHA: O modulo aceitou dados invalidos!");
+            $display("[PASS] Ruido ignorado corretamente.");
+        else 
+            $display("[FAIL] O modulo aceitou ruido!");
 
-        #100;
+        $display("=== FIM DOS TESTES ===");
         $stop;
     end
 
