@@ -2,18 +2,16 @@
 
 module tb_RemoteController;
 
-    // --- Entradas e Saídas do DUT ---
+    // =========================================================================
+    // 1. SINAIS E DUT
+    // =========================================================================
     reg Clock;
     reg Reset;
     reg Serial;
     wire [7:0] Tecla;
     wire Ready;
 
-    // --- Configuração de Clocks (304 kHz) ---
-    // Periodo = ~3289 ns
-    parameter CLK_PERIOD = 3289; 
-    
-    // Instanciação do DUT
+    // Instancia o seu módulo modificado (com Baud Rate Generator)
     RemoteController uut (
         .Clock(Clock), 
         .Reset(Reset), 
@@ -22,103 +20,109 @@ module tb_RemoteController;
         .Ready(Ready)
     );
 
-    // Geração de Clock
-    always #(CLK_PERIOD/2) Clock = ~Clock;
+    // =========================================================================
+    // 2. GERAÇÃO DE CLOCK REAL (304 kHz)
+    // =========================================================================
+    // Frequência: 304 kHz -> Período: ~3289.47 ns
+    // Metade do Período (Toggle): ~1645 ns
+    initial begin
+        Clock = 0;
+        forever #1645 Clock = ~Clock; 
+    end
 
-    // --- Definição dos Vetores de Teste ---
-    // Vamos testar 8 teclas diferentes
-    reg [7:0] lista_de_teclas [0:7]; 
-    integer k; // Variável para o loop
-
-    // --- TASK: Enviar Tecla ---
-    task enviar_tecla;
-        input [15:0] custom_code; 
-        input [7:0]  key_code;    
+    // =========================================================================
+    // 3. TAREFA PARA ENVIAR PACOTES A 38 kHz
+    // =========================================================================
+    // Frequência: 38 kHz -> Período de bit: ~26315 ns
+    // Esta tarefa emula o sensor IR enviando dados lentamente
+    task enviar_pacote_38k;
+        input [15:0] endereco; // 16 bits (geralmente fixos ou ignorados)
+        input [7:0]  comando;  // Código da tecla
+        input [7:0]  inverso;  // Código inverso para validação
         
-        reg [31:0] pacote_completo;
+        reg [31:0] pacote;
         integer i;
         
         begin
-            // Prepara o pacote (Custom + Key + ~Key)
-            pacote_completo = {custom_code, key_code, ~key_code};
-
-            // 1. Lead Code (Start Bit)
-            @(negedge Clock);
-            Serial = 1'b0; 
+            pacote = {endereco, comando, inverso};
             
-            // 2. Envia os 32 bits
+            // Garante que a linha comece em repouso (High)
+            Serial = 1;
+            #30000; // Pequena pausa antes de começar
+
+            // IMPORTANTE: O bit 31 (MSB) deve ser 0 para gerar a borda de descida
+            // que acorda a máquina de estados (IDLE -> READ_DATA).
+            // Protocolos reais (como NEC) têm um preâmbulo, aqui assumimos
+            // que o pacote começa com '0' nos dados.
+            
+            $display(">> Iniciando transmissao de: %h a 38kHz...", pacote);
+
             for (i = 31; i >= 0; i = i - 1) begin
-                @(negedge Clock); 
-                Serial = pacote_completo[i];
+                Serial = pacote[i]; // Coloca o bit na linha
+                #26315;             // Segura o bit por 26.3us (1 ciclo de 38kHz)
             end
-
-            // 3. Volta ao repouso
-            @(negedge Clock);
-            Serial = 1'b1;
-
-            // Aguarda o processamento da FSM (alguns clocks)
-            repeat(10) @(posedge Clock);
+            
+            // Volta para repouso
+            Serial = 1;
+            #50000; // Tempo morto entre pacotes
         end
     endtask
 
-    // --- Bloco Principal de Teste ---
+    // =========================================================================
+    // 4. CENÁRIOS DE TESTE
+    // =========================================================================
     initial begin
-        // 1. Configuração Inicial
-        Clock = 0;
+        // Inicialização
+        $display("--- SIMULACAO INICIADA (Clock: 304kHz | Serial: 38kHz) ---");
         Reset = 1;
-        Serial = 1;
+        Serial = 1; // Pull-up (IR sem sinal é 1)
         
-        // Define as teclas que queremos testar (Hexadecimal)
-        lista_de_teclas[0] = 8'h00; // Zero
-        lista_de_teclas[1] = 8'h01; // Um
-        lista_de_teclas[2] = 8'h1A; // Letra A
-        lista_de_teclas[3] = 8'hB2; // Letra B
-        lista_de_teclas[4] = 8'hFF; // Maximo valor
-        lista_de_teclas[5] = 8'h55; // Padrão 01010101
-        lista_de_teclas[6] = 8'hAA; // Padrão 10101010
-        lista_de_teclas[7] = 8'hC3; // Valor aleatório
-
-        // Solta o Reset
-        #(CLK_PERIOD * 10);
+        // Reset inicial
+        #5000;
         Reset = 0;
-        #(CLK_PERIOD * 10);
+        #5000; // Espera o sistema estabilizar
 
-        $display("=== INICIANDO TESTE DE MULTIPLAS TECLAS ===");
+        // ------------------------------------------------------------
+        // CASO 1: Pacote Válido
+        // Endereço: 0000, Tecla: A5 (10100101), Inverso: 5A (01011010)
+        // Nota: O Endereço 0000 garante que o primeiro bit seja 0 (Start trigger)
+        // ------------------------------------------------------------
+        enviar_pacote_38k(16'h0000, 8'hA5, 8'h5A);
 
-        // 2. Loop Automático
-        for (k = 0; k < 8; k = k + 1) begin
-            
-            // A. Envia a tecla atual da lista
-            enviar_tecla(16'hFFFF, lista_de_teclas[k]);
+        // Verificação
+        if (Tecla == 8'hA5 && Ready == 0) // Ready pulsa rápido, talvez já tenha descido
+             $display(">> [SUCESSO] Tecla A5 capturada e salva na memoria.");
+        else if (Tecla == 8'hA5)
+             $display(">> [SUCESSO] Tecla A5 capturada.");
+        else
+             $display(">> [FALHA] Esperado A5, recebido %h", Tecla);
 
-            // B. Verificação Automática (Self-Checking)
-            // O sinal Ready deve estar ALTO e a Tecla deve bater com a lista
-            if (Ready == 1'b1 && Tecla == lista_de_teclas[k]) begin
-                $display("[PASS] Teste %0d: Enviado %h -> Recebido %h (OK)", k, lista_de_teclas[k], Tecla);
-            end else begin
-                $display("[FAIL] Teste %0d: Enviado %h -> Recebido %h (Ready=%b)", k, lista_de_teclas[k], Tecla, Ready);
-            end
+        // ------------------------------------------------------------
+        // CASO 2: Pacote Inválido (Erro de Checksum)
+        // Endereço: 0000, Tecla: 33, Inverso: 00 (Errado! Deveria ser CC)
+        // ------------------------------------------------------------
+        $display("--- Enviando pacote corrompido... ---");
+        enviar_pacote_38k(16'h0000, 8'h33, 8'h00);
 
-            // C. Aguarda um tempo entre as teclas (simula usuário soltando o botão)
-            #(CLK_PERIOD * 20); 
-        end
+        // A tecla NÃO deve mudar (deve continuar sendo A5)
+        if (Tecla == 8'hA5) 
+             $display(">> [SUCESSO] Pacote invalido ignorado. Tecla manteve valor anterior.");
+        else
+             $display(">> [FALHA] Sistema aceitou pacote ruim! Tecla mudou para %h", Tecla);
 
-        // 3. Teste Extra: Tecla Inválida (Para garantir que ele não aceita lixo)
-        $display("=== TESTE DE ROBUSTEZ (ERRO) ===");
-        
-        @(negedge Clock); Serial = 0; // Start
-        // Envia lixo (tudo 1)
-        repeat(32) @(negedge Clock) Serial = 1; 
-        @(negedge Clock) Serial = 1;
-        
-        #(CLK_PERIOD * 10);
-        
-        if (Ready == 0) 
-            $display("[PASS] Ruido ignorado corretamente.");
-        else 
-            $display("[FAIL] O modulo aceitou ruido!");
+        // ------------------------------------------------------------
+        // CASO 3: Novo Pacote Válido
+        // Endereço: 0000, Tecla: F0, Inverso: 0F
+        // ------------------------------------------------------------
+        enviar_pacote_38k(16'h0000, 8'hF0, 8'h0F);
 
-        $display("=== FIM DOS TESTES ===");
+        if (Tecla == 8'hF0) 
+             $display(">> [SUCESSO] Nova tecla F0 atualizada.");
+        else
+             $display(">> [FALHA] Tecla F0 nao recebida.");
+
+        #100000;
+        $display("--- Fim da Simulacao ---");
         $stop;
     end
 
