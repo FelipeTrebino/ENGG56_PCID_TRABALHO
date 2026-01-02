@@ -1,0 +1,81 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "Ready",
+					"strict" : false
+				},
+				{
+					"name" : "u[0]",
+					"strict" : false
+				},
+				{
+					"name" : "u[1]",
+					"strict" : false
+				},
+				{
+					"name" : "u[2]",
+					"strict" : false
+				},
+				{
+					"name" : "v[0]",
+					"strict" : false
+				},
+				{
+					"name" : "v[1]",
+					"strict" : false
+				},
+				{
+					"name" : "v[2]",
+					"strict" : false
+				},
+				{
+					"name" : "Active_MAC",
+					"strict" : false
+				},
+				{
+					"name" : "Read_Enable",
+					"strict" : false
+				},
+				{
+					"name" : "Address[0]",
+					"strict" : false
+				},
+				{
+					"name" : "Address[1]",
+					"strict" : false
+				},
+				{
+					"name" : "Address[2]",
+					"strict" : false
+				},
+				{
+					"name" : "Address[3]",
+					"strict" : false
+				},
+				{
+					"name" : "Address[4]",
+					"strict" : false
+				},
+				{
+					"name" : "Address[5]",
+					"strict" : false
+				},
+				{
+					"name" : "Clock",
+					"strict" : false
+				},
+				{
+					"name" : "Reset",
+					"strict" : false
+				},
+				{
+					"name" : "Start",
+					"strict" : false
+				}
+			]
+		}
+	]
+}

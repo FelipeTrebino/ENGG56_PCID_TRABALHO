@@ -1,0 +1,40 @@
+|FSM_Control
+Start => Selector7.IN3
+Start => Selector6.IN2
+Clock => V_Atual[0].CLK
+Clock => V_Atual[1].CLK
+Clock => V_Atual[2].CLK
+Clock => U_Atual[0].CLK
+Clock => U_Atual[1].CLK
+Clock => U_Atual[2].CLK
+Clock => EstadoAtual~1.DATAIN
+Reset => V_Atual[0].ACLR
+Reset => V_Atual[1].ACLR
+Reset => V_Atual[2].ACLR
+Reset => U_Atual[0].ACLR
+Reset => U_Atual[1].ACLR
+Reset => U_Atual[2].ACLR
+Reset => EstadoAtual~3.DATAIN
+Ready << Ready.DB_MAX_OUTPUT_PORT_TYPE
+u[0] << U_Atual[0].DB_MAX_OUTPUT_PORT_TYPE
+u[1] << U_Atual[1].DB_MAX_OUTPUT_PORT_TYPE
+u[2] << U_Atual[2].DB_MAX_OUTPUT_PORT_TYPE
+v[0] << V_Atual[0].DB_MAX_OUTPUT_PORT_TYPE
+v[1] << V_Atual[1].DB_MAX_OUTPUT_PORT_TYPE
+v[2] << V_Atual[2].DB_MAX_OUTPUT_PORT_TYPE
+x[0] << <GND>
+x[1] << <GND>
+x[2] << <GND>
+y[0] << <GND>
+y[1] << <GND>
+y[2] << <GND>
+Active_MAC << Active_MAC.DB_MAX_OUTPUT_PORT_TYPE
+Read_Enable << Read_Enable.DB_MAX_OUTPUT_PORT_TYPE
+Address[0] << V_Atual[0].DB_MAX_OUTPUT_PORT_TYPE
+Address[1] << V_Atual[1].DB_MAX_OUTPUT_PORT_TYPE
+Address[2] << V_Atual[2].DB_MAX_OUTPUT_PORT_TYPE
+Address[3] << U_Atual[0].DB_MAX_OUTPUT_PORT_TYPE
+Address[4] << U_Atual[1].DB_MAX_OUTPUT_PORT_TYPE
+Address[5] << U_Atual[2].DB_MAX_OUTPUT_PORT_TYPE
+
+

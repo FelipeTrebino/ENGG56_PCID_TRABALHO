@@ -1,0 +1,9 @@
+
+State Machine - |FSM_Control|EstadoAtual
+Name EstadoAtual.Concluido EstadoAtual.AtualizarUeV EstadoAtual.Acumular EstadoAtual.EsperaDados EstadoAtual.LeituraEndereco EstadoAtual.Ocioso 
+EstadoAtual.Ocioso 0 0 0 0 0 0 
+EstadoAtual.LeituraEndereco 0 0 0 0 1 1 
+EstadoAtual.EsperaDados 0 0 0 1 0 1 
+EstadoAtual.Acumular 0 0 1 0 0 1 
+EstadoAtual.AtualizarUeV 0 1 0 0 0 1 
+EstadoAtual.Concluido 1 0 0 0 0 1 
