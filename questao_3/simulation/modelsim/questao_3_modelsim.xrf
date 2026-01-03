@@ -1,6 +1,7 @@
 vendor_name = ModelSim
 source_file = 1, C:/Users/TELMA/Documents/PCID/ENGG56_PCID_TRABALHO/questao_3/TB_FSM_Control.v
 source_file = 1, C:/Users/TELMA/Documents/PCID/ENGG56_PCID_TRABALHO/questao_3/FSM_Control.v
+source_file = 1, C:/Users/TELMA/Documents/PCID/ENGG56_PCID_TRABALHO/questao_3/FSM.bdf
 source_file = 1, C:/Users/TELMA/Documents/PCID/ENGG56_PCID_TRABALHO/questao_3/db/questao_3.cbx.xml
 design_name = FSM_Control
 instance = comp, \Ready~output , Ready~output, FSM_Control, 1

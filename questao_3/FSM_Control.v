@@ -5,14 +5,14 @@ module FSM_Control (Start, Clock, Reset, Ready, u, v, x, y, Active_MAC, Read_Ena
   input             Reset;
 
   // Saídas
-  output reg        Ready;
-  output reg [2:0]  u;
-  output reg [2:0]  v;
-  output reg [2:0]  x;
-  output reg [2:0]  y;
-  output reg        Active_MAC;
-  output reg        Read_Enable;
-  output reg [5:0]  Address;
+  output        Ready;
+  output [2:0]  u;
+  output [2:0]  v;
+  output [2:0]  x;
+  output [2:0]  y;
+  output        Active_MAC;
+  output        Read_Enable;
+  output [5:0]  Address;
 
   // Registradores internos
   reg [2:0] EstadoAtual, EstadoFuturo;
@@ -31,6 +31,17 @@ module FSM_Control (Start, Clock, Reset, Ready, u, v, x, y, Active_MAC, Read_Ena
   parameter
     X_Atual = 3'b000,
     Y_Atual = 3'b000;
+
+
+  // Atribuições de saídas
+  assign Ready = (EstadoAtual == Concluido);
+  assign u = U_Atual;
+  assign v = V_Atual;
+  assign x = X_Atual;
+  assign y = Y_Atual;
+  assign Active_MAC = (EstadoAtual == Acumular);
+  assign Read_Enable = (EstadoAtual == LeituraEndereco);
+  assign Address = {U_Atual, V_Atual};
 
   // Bloco sincrono com clock
   always @(posedge Clock or posedge Reset)
@@ -70,19 +81,10 @@ module FSM_Control (Start, Clock, Reset, Ready, u, v, x, y, Active_MAC, Read_Ena
     end
   end
 
-  // Bloco combinacional
+  // Bloco decodificador de proximo estado, assincrono
   always @(*)
   begin
     EstadoFuturo = EstadoAtual;
-    Ready = 1'b0;
-    u = U_Atual;
-    v = V_Atual;
-    x = X_Atual;
-    y = Y_Atual;
-    Active_MAC = 1'b0;
-    Read_Enable = 1'b0;
-    Address = {U_Atual, V_Atual};
-
     case (EstadoAtual)
       Ocioso:
       begin
@@ -94,7 +96,6 @@ module FSM_Control (Start, Clock, Reset, Ready, u, v, x, y, Active_MAC, Read_Ena
 
       LeituraEndereco:
       begin
-        Read_Enable = 1'b1;
         EstadoFuturo = EsperaDados;
       end
 
@@ -107,7 +108,6 @@ module FSM_Control (Start, Clock, Reset, Ready, u, v, x, y, Active_MAC, Read_Ena
       Acumular:
       begin
         // Assume que o acumulador já recebeu os dados necessários para o cálculo em um pulso
-        Active_MAC = 1'b1;
         EstadoFuturo = AtualizarUeV;
       end
 
@@ -121,8 +121,7 @@ module FSM_Control (Start, Clock, Reset, Ready, u, v, x, y, Active_MAC, Read_Ena
 
       Concluido:
       begin
-        Ready = 1'b1;
-	EstadoFuturo = Ocioso;
+			EstadoFuturo = Ocioso;
       end
 
       default:
