@@ -98,7 +98,7 @@ module RemoteController (
         else         current_state <= next_state;
     end
 
-    // B) Lógica de Próximo Estado
+    // B) Lógica de Próximo Estado - decodificador de proximo estado
     always @(*) begin
         next_state = current_state; 
         case (current_state)
@@ -118,7 +118,7 @@ module RemoteController (
             end
 
             OUTPUT: begin
-                if (pulse_cnt == 2'd2) next_state = IDLE;
+                if (pulse_cnt == 2'd3) next_state = IDLE;
                 else                   next_state = OUTPUT;
             end
             
@@ -140,7 +140,7 @@ module RemoteController (
             pulse_cnt      <= 2'd0;
             Tecla          <= 8'd0;
         end else begin
-            case (current_state)
+            case (next_state)
                 IDLE: begin
                     pulse_cnt <= 2'd0;
                     bit_cnt   <= 6'd0;
@@ -161,7 +161,7 @@ module RemoteController (
                 end
 
                 OUTPUT: begin
-                    if (pulse_cnt < 2'd2)
+                    if (pulse_cnt < 2'd3)
                         pulse_cnt <= pulse_cnt + 1'b1;
                 end
             endcase
