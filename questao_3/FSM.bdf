@@ -21,9 +21,9 @@ refer to the applicable agreement for further details.
 (header "graphic" (version "1.4"))
 (pin
 	(input)
-	(rect 136 224 304 240)
+	(rect 200 256 368 272)
 	(text "INPUT" (rect 125 0 153 10)(font "Arial" (font_size 6)))
-	(text "Start" (rect 5 0 28 12)(font "Arial" ))
+	(text "CLOCK_50" (rect 5 0 59 17)(font "Intel Clear" ))
 	(pt 168 8)
 	(drawing
 		(line (pt 84 12)(pt 109 12))
@@ -37,9 +37,9 @@ refer to the applicable agreement for further details.
 )
 (pin
 	(input)
-	(rect 136 240 304 256)
+	(rect 200 240 368 256)
 	(text "INPUT" (rect 125 0 153 10)(font "Arial" (font_size 6)))
-	(text "Clock" (rect 5 0 32 17)(font "Intel Clear" ))
+	(text "SW[1]" (rect 5 0 36 12)(font "Arial" ))
 	(pt 168 8)
 	(drawing
 		(line (pt 84 12)(pt 109 12))
@@ -53,9 +53,9 @@ refer to the applicable agreement for further details.
 )
 (pin
 	(input)
-	(rect 136 256 304 272)
+	(rect 200 272 368 288)
 	(text "INPUT" (rect 125 0 153 10)(font "Arial" (font_size 6)))
-	(text "Reset" (rect 5 0 32 17)(font "Intel Clear" ))
+	(text "SW[0]" (rect 5 0 35 17)(font "Intel Clear" ))
 	(pt 168 8)
 	(drawing
 		(line (pt 84 12)(pt 109 12))
@@ -69,9 +69,9 @@ refer to the applicable agreement for further details.
 )
 (pin
 	(output)
-	(rect 488 224 664 240)
+	(rect 552 320 728 336)
 	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
-	(text "Ready" (rect 90 0 123 12)(font "Arial" ))
+	(text "pin_name1" (rect 90 0 143 12)(font "Arial" ))
 	(pt 0 8)
 	(drawing
 		(line (pt 0 8)(pt 52 8))
@@ -85,9 +85,9 @@ refer to the applicable agreement for further details.
 )
 (pin
 	(output)
-	(rect 488 240 664 256)
+	(rect 552 304 728 320)
 	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
-	(text "u" (rect 90 0 95 17)(font "Intel Clear" ))
+	(text "pin_name2" (rect 90 0 143 17)(font "Intel Clear" ))
 	(pt 0 8)
 	(drawing
 		(line (pt 0 8)(pt 52 8))
@@ -101,9 +101,9 @@ refer to the applicable agreement for further details.
 )
 (pin
 	(output)
-	(rect 488 256 664 272)
+	(rect 552 288 728 304)
 	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
-	(text "v" (rect 90 0 95 17)(font "Intel Clear" ))
+	(text "pin_name3" (rect 90 0 143 17)(font "Intel Clear" ))
 	(pt 0 8)
 	(drawing
 		(line (pt 0 8)(pt 52 8))
@@ -117,9 +117,9 @@ refer to the applicable agreement for further details.
 )
 (pin
 	(output)
-	(rect 488 272 664 288)
+	(rect 552 272 728 288)
 	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
-	(text "x" (rect 90 0 94 17)(font "Intel Clear" ))
+	(text "pin_name4" (rect 90 0 143 17)(font "Intel Clear" ))
 	(pt 0 8)
 	(drawing
 		(line (pt 0 8)(pt 52 8))
@@ -133,9 +133,9 @@ refer to the applicable agreement for further details.
 )
 (pin
 	(output)
-	(rect 488 288 664 304)
+	(rect 552 256 728 272)
 	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
-	(text "y" (rect 90 0 95 17)(font "Intel Clear" ))
+	(text "pin_name5" (rect 90 0 143 17)(font "Intel Clear" ))
 	(pt 0 8)
 	(drawing
 		(line (pt 0 8)(pt 52 8))
@@ -149,9 +149,9 @@ refer to the applicable agreement for further details.
 )
 (pin
 	(output)
-	(rect 488 304 664 320)
+	(rect 552 240 728 256)
 	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
-	(text "Active_MAC" (rect 90 0 149 17)(font "Intel Clear" ))
+	(text "pin_name6" (rect 90 0 143 17)(font "Intel Clear" ))
 	(pt 0 8)
 	(drawing
 		(line (pt 0 8)(pt 52 8))
@@ -165,9 +165,9 @@ refer to the applicable agreement for further details.
 )
 (pin
 	(output)
-	(rect 488 320 664 336)
+	(rect 552 336 728 352)
 	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
-	(text "Read_Enable" (rect 90 0 153 17)(font "Intel Clear" ))
+	(text "pin_name7" (rect 90 0 143 17)(font "Intel Clear" ))
 	(pt 0 8)
 	(drawing
 		(line (pt 0 8)(pt 52 8))
@@ -181,9 +181,9 @@ refer to the applicable agreement for further details.
 )
 (pin
 	(output)
-	(rect 488 336 664 352)
+	(rect 552 352 728 368)
 	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
-	(text "Address" (rect 90 0 127 17)(font "Intel Clear" ))
+	(text "pin_name8" (rect 90 0 143 17)(font "Intel Clear" ))
 	(pt 0 8)
 	(drawing
 		(line (pt 0 8)(pt 52 8))
@@ -196,9 +196,9 @@ refer to the applicable agreement for further details.
 	)
 )
 (symbol
-	(rect 304 192 488 368)
+	(rect 368 216 552 392)
 	(text "FSM_Control" (rect 5 0 68 12)(font "Arial" ))
-	(text "inst1" (rect 8 160 30 177)(font "Intel Clear" ))
+	(text "inst" (rect 8 160 25 172)(font "Arial" ))
 	(port
 		(pt 0 32)
 		(input)
@@ -319,5 +319,5 @@ refer to the applicable agreement for further details.
 	(drawing
 		(rectangle (rect 16 16 168 160))
 	)
-	(annotation_block (parameter)(rect 488 16 704 192))
+	(annotation_block (parameter)(rect 552 40 768 216))
 )

@@ -27,19 +27,19 @@ module TB_FSM_Control;
   );
 
   initial Clock = 0;
-  always #5
+  always #10
     Clock = ~Clock;
 
   initial begin
     Reset = 1;
     Start = 0;
 
-    #10;
+    #20;
     Reset = 0;
 
-    #10;
+    #20;
     Start = 1;
-    #10;
+    #20;
     Start = 0;
 
     wait (Ready == 1);

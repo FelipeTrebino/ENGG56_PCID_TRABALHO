@@ -12,7 +12,4 @@ vlog -vlog01compat -work work +incdir+C:/Users/TELMA/Documents/PCID/ENGG56_PCID_
 
 vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -voptargs="+acc"  TB_FSM_Control
 
-add wave *
-view structure
-view signals
-run -all
+do C:/Users/TELMA/Documents/PCID/ENGG56_PCID_TRABALHO/questao_3/simulation/modelsim/wave.do
