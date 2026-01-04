@@ -1,5 +1,5 @@
 
-State Machine - |FSM_Control|EstadoAtual
+State Machine - |FSM|FSM_Control:inst|EstadoAtual
 Name EstadoAtual.Concluido EstadoAtual.AtualizarUeV EstadoAtual.Acumular EstadoAtual.EsperaDados EstadoAtual.LeituraEndereco EstadoAtual.Ocioso 
 EstadoAtual.Ocioso 0 0 0 0 0 0 
 EstadoAtual.LeituraEndereco 0 0 0 0 1 1 

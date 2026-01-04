@@ -4,75 +4,75 @@
 			"name" : "Top",
 			"pins" : [
 				{
-					"name" : "Ready",
+					"name" : "LEDG[2]",
 					"strict" : false
 				},
 				{
-					"name" : "u[0]",
+					"name" : "LEDG[1]",
 					"strict" : false
 				},
 				{
-					"name" : "u[1]",
+					"name" : "LEDG[0]",
 					"strict" : false
 				},
 				{
-					"name" : "u[2]",
+					"name" : "LEDR[17]",
 					"strict" : false
 				},
 				{
-					"name" : "v[0]",
+					"name" : "LEDR[16]",
 					"strict" : false
 				},
 				{
-					"name" : "v[1]",
+					"name" : "LEDR[15]",
 					"strict" : false
 				},
 				{
-					"name" : "v[2]",
+					"name" : "LEDR[14]",
 					"strict" : false
 				},
 				{
-					"name" : "Active_MAC",
+					"name" : "LEDR[13]",
 					"strict" : false
 				},
 				{
-					"name" : "Read_Enable",
+					"name" : "LEDR[12]",
 					"strict" : false
 				},
 				{
-					"name" : "Address[0]",
+					"name" : "LEDR[5]",
 					"strict" : false
 				},
 				{
-					"name" : "Address[1]",
+					"name" : "LEDR[4]",
 					"strict" : false
 				},
 				{
-					"name" : "Address[2]",
+					"name" : "LEDR[3]",
 					"strict" : false
 				},
 				{
-					"name" : "Address[3]",
+					"name" : "LEDR[2]",
 					"strict" : false
 				},
 				{
-					"name" : "Address[4]",
+					"name" : "LEDR[1]",
 					"strict" : false
 				},
 				{
-					"name" : "Address[5]",
+					"name" : "LEDR[0]",
 					"strict" : false
 				},
 				{
-					"name" : "Clock",
+					"name" : "SW[1]",
 					"strict" : false
 				},
 				{
-					"name" : "Reset",
+					"name" : "CLOCK_50",
 					"strict" : false
 				},
 				{
-					"name" : "Start",
+					"name" : "SW[0]",
 					"strict" : false
 				}
 			]

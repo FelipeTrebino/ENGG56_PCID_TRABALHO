@@ -21,9 +21,9 @@ refer to the applicable agreement for further details.
 (header "graphic" (version "1.4"))
 (pin
 	(input)
-	(rect 200 256 368 272)
+	(rect 144 256 312 272)
 	(text "INPUT" (rect 125 0 153 10)(font "Arial" (font_size 6)))
-	(text "CLOCK_50" (rect 5 0 59 17)(font "Intel Clear" ))
+	(text "CLOCK_50" (rect 5 0 58 17)(font "Intel Clear" ))
 	(pt 168 8)
 	(drawing
 		(line (pt 84 12)(pt 109 12))
@@ -34,12 +34,13 @@ refer to the applicable agreement for further details.
 		(line (pt 109 12)(pt 113 8))
 	)
 	(text "VCC" (rect 128 7 148 17)(font "Arial" (font_size 6)))
+	(annotation_block (location)(rect 88 272 144 296))
 )
 (pin
 	(input)
-	(rect 200 240 368 256)
+	(rect 144 240 312 256)
 	(text "INPUT" (rect 125 0 153 10)(font "Arial" (font_size 6)))
-	(text "SW[1]" (rect 5 0 36 12)(font "Arial" ))
+	(text "SW[1]" (rect 5 0 35 12)(font "Arial" ))
 	(pt 168 8)
 	(drawing
 		(line (pt 84 12)(pt 109 12))
@@ -50,12 +51,13 @@ refer to the applicable agreement for further details.
 		(line (pt 109 12)(pt 113 8))
 	)
 	(text "VCC" (rect 128 7 148 17)(font "Arial" (font_size 6)))
+	(annotation_block (location)(rect 72 256 144 280))
 )
 (pin
 	(input)
-	(rect 200 272 368 288)
+	(rect 144 272 312 288)
 	(text "INPUT" (rect 125 0 153 10)(font "Arial" (font_size 6)))
-	(text "SW[0]" (rect 5 0 35 17)(font "Intel Clear" ))
+	(text "SW[0]" (rect 5 0 34 17)(font "Intel Clear" ))
 	(pt 168 8)
 	(drawing
 		(line (pt 84 12)(pt 109 12))
@@ -66,12 +68,30 @@ refer to the applicable agreement for further details.
 		(line (pt 109 12)(pt 113 8))
 	)
 	(text "VCC" (rect 128 7 148 17)(font "Arial" (font_size 6)))
+	(annotation_block (location)(rect 72 288 144 312))
 )
 (pin
 	(output)
-	(rect 552 320 728 336)
+	(rect 496 240 672 256)
 	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
-	(text "pin_name1" (rect 90 0 143 12)(font "Arial" ))
+	(text "LEDG[0]" (rect 90 0 128 17)(font "Intel Clear" ))
+	(pt 0 8)
+	(drawing
+		(line (pt 0 8)(pt 52 8))
+		(line (pt 52 4)(pt 78 4))
+		(line (pt 52 12)(pt 78 12))
+		(line (pt 52 12)(pt 52 4))
+		(line (pt 78 4)(pt 82 8))
+		(line (pt 82 8)(pt 78 12))
+		(line (pt 78 12)(pt 82 8))
+	)
+	(annotation_block (location)(rect 672 256 736 280))
+)
+(pin
+	(output)
+	(rect 496 256 672 272)
+	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
+	(text "LEDR[2..0]" (rect 90 0 139 17)(font "Intel Clear" ))
 	(pt 0 8)
 	(drawing
 		(line (pt 0 8)(pt 52 8))
@@ -85,9 +105,9 @@ refer to the applicable agreement for further details.
 )
 (pin
 	(output)
-	(rect 552 304 728 320)
+	(rect 496 272 672 288)
 	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
-	(text "pin_name2" (rect 90 0 143 17)(font "Intel Clear" ))
+	(text "LEDR[5..3]" (rect 90 0 139 17)(font "Intel Clear" ))
 	(pt 0 8)
 	(drawing
 		(line (pt 0 8)(pt 52 8))
@@ -101,9 +121,9 @@ refer to the applicable agreement for further details.
 )
 (pin
 	(output)
-	(rect 552 288 728 304)
+	(rect 496 288 672 304)
 	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
-	(text "pin_name3" (rect 90 0 143 17)(font "Intel Clear" ))
+	(text "LEDR[8..6]" (rect 90 0 139 17)(font "Intel Clear" ))
 	(pt 0 8)
 	(drawing
 		(line (pt 0 8)(pt 52 8))
@@ -117,9 +137,9 @@ refer to the applicable agreement for further details.
 )
 (pin
 	(output)
-	(rect 552 272 728 288)
+	(rect 496 304 672 320)
 	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
-	(text "pin_name4" (rect 90 0 143 17)(font "Intel Clear" ))
+	(text "LEDR[11..9]" (rect 90 0 145 17)(font "Intel Clear" ))
 	(pt 0 8)
 	(drawing
 		(line (pt 0 8)(pt 52 8))
@@ -133,9 +153,9 @@ refer to the applicable agreement for further details.
 )
 (pin
 	(output)
-	(rect 552 256 728 272)
+	(rect 496 320 672 336)
 	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
-	(text "pin_name5" (rect 90 0 143 17)(font "Intel Clear" ))
+	(text "LEDG[1]" (rect 90 0 132 12)(font "Arial" ))
 	(pt 0 8)
 	(drawing
 		(line (pt 0 8)(pt 52 8))
@@ -149,9 +169,9 @@ refer to the applicable agreement for further details.
 )
 (pin
 	(output)
-	(rect 552 240 728 256)
+	(rect 496 336 672 352)
 	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
-	(text "pin_name6" (rect 90 0 143 17)(font "Intel Clear" ))
+	(text "LEDG[2]" (rect 90 0 128 17)(font "Intel Clear" ))
 	(pt 0 8)
 	(drawing
 		(line (pt 0 8)(pt 52 8))
@@ -165,25 +185,9 @@ refer to the applicable agreement for further details.
 )
 (pin
 	(output)
-	(rect 552 336 728 352)
+	(rect 496 352 672 368)
 	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
-	(text "pin_name7" (rect 90 0 143 17)(font "Intel Clear" ))
-	(pt 0 8)
-	(drawing
-		(line (pt 0 8)(pt 52 8))
-		(line (pt 52 4)(pt 78 4))
-		(line (pt 52 12)(pt 78 12))
-		(line (pt 52 12)(pt 52 4))
-		(line (pt 78 4)(pt 82 8))
-		(line (pt 82 8)(pt 78 12))
-		(line (pt 78 12)(pt 82 8))
-	)
-)
-(pin
-	(output)
-	(rect 552 352 728 368)
-	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
-	(text "pin_name8" (rect 90 0 143 17)(font "Intel Clear" ))
+	(text "LEDR[17..12]" (rect 90 0 151 17)(font "Intel Clear" ))
 	(pt 0 8)
 	(drawing
 		(line (pt 0 8)(pt 52 8))
@@ -196,7 +200,7 @@ refer to the applicable agreement for further details.
 	)
 )
 (symbol
-	(rect 368 216 552 392)
+	(rect 312 216 496 392)
 	(text "FSM_Control" (rect 5 0 68 12)(font "Arial" ))
 	(text "inst" (rect 8 160 25 172)(font "Arial" ))
 	(port
@@ -319,5 +323,5 @@ refer to the applicable agreement for further details.
 	(drawing
 		(rectangle (rect 16 16 168 160))
 	)
-	(annotation_block (parameter)(rect 552 40 768 216))
+	(annotation_block (parameter)(rect 496 40 712 216))
 )
