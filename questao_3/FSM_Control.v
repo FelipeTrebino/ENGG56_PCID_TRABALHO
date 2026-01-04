@@ -66,11 +66,11 @@ module FSM_Control (Start, Clock, Reset, Ready, u, v, x, y, Active_MAC, Read_Ena
           if (V_Atual == 3'b111)
           begin
             V_Atual <= 3'b000;
-            U_Atual <= U_Atual + 1;
+            U_Atual <= U_Atual + 3'b001;
           end
           else
           begin
-            V_Atual <= V_Atual + 1;
+            V_Atual <= V_Atual + 3'b001;
           end
         end
         default:
