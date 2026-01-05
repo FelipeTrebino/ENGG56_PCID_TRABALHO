@@ -69,24 +69,24 @@ set_clock_uncertainty -fall_from [get_clocks {inst2|altpll_component|auto_genera
 # Set Input Delay
 #**************************************************************
 
-set_input_delay -add_delay  -clock [get_clocks {inst2|altpll_component|auto_generated|pll1|clk[0]}]  3289.4736842105 [get_ports {CLOCK_50}]
-set_input_delay -add_delay  -clock [get_clocks {inst2|altpll_component|auto_generated|pll1|clk[0]}]  3289.4736842105 [get_ports {IRDA_RXD}]
-set_input_delay -add_delay  -clock [get_clocks {inst2|altpll_component|auto_generated|pll1|clk[0]}]  3289.4736842105 [get_ports {SW[0]}]
+set_input_delay -add_delay  -clock [get_clocks {inst2|altpll_component|auto_generated|pll1|clk[0]}]  328.940 [get_ports {CLOCK_50}]
+set_input_delay -add_delay  -clock [get_clocks {inst2|altpll_component|auto_generated|pll1|clk[0]}]  328.940 [get_ports {IRDA_RXD}]
+set_input_delay -add_delay  -clock [get_clocks {inst2|altpll_component|auto_generated|pll1|clk[0]}]  328.940 [get_ports {SW[0]}]
 
 
 #**************************************************************
 # Set Output Delay
 #**************************************************************
 
-set_output_delay -add_delay  -clock [get_clocks {inst2|altpll_component|auto_generated|pll1|clk[0]}]  3289.4736842105 [get_ports {LEDG[0]}]
-set_output_delay -add_delay  -clock [get_clocks {inst2|altpll_component|auto_generated|pll1|clk[0]}]  3289.4736842105 [get_ports {LEDR[0]}]
-set_output_delay -add_delay  -clock [get_clocks {inst2|altpll_component|auto_generated|pll1|clk[0]}]  3289.4736842105 [get_ports {LEDR[1]}]
-set_output_delay -add_delay  -clock [get_clocks {inst2|altpll_component|auto_generated|pll1|clk[0]}]  3289.4736842105 [get_ports {LEDR[2]}]
-set_output_delay -add_delay  -clock [get_clocks {inst2|altpll_component|auto_generated|pll1|clk[0]}]  3289.4736842105 [get_ports {LEDR[3]}]
-set_output_delay -add_delay  -clock [get_clocks {inst2|altpll_component|auto_generated|pll1|clk[0]}]  3289.4736842105 [get_ports {LEDR[4]}]
-set_output_delay -add_delay  -clock [get_clocks {inst2|altpll_component|auto_generated|pll1|clk[0]}]  3289.4736842105 [get_ports {LEDR[5]}]
-set_output_delay -add_delay  -clock [get_clocks {inst2|altpll_component|auto_generated|pll1|clk[0]}]  3289.4736842105 [get_ports {LEDR[6]}]
-set_output_delay -add_delay  -clock [get_clocks {inst2|altpll_component|auto_generated|pll1|clk[0]}]  3289.4736842105 [get_ports {LEDR[7]}]
+set_output_delay -add_delay  -clock [get_clocks {inst2|altpll_component|auto_generated|pll1|clk[0]}]  328.940 [get_ports {LEDG[0]}]
+set_output_delay -add_delay  -clock [get_clocks {inst2|altpll_component|auto_generated|pll1|clk[0]}]  328.940 [get_ports {LEDR[0]}]
+set_output_delay -add_delay  -clock [get_clocks {inst2|altpll_component|auto_generated|pll1|clk[0]}]  328.940 [get_ports {LEDR[1]}]
+set_output_delay -add_delay  -clock [get_clocks {inst2|altpll_component|auto_generated|pll1|clk[0]}]  328.940 [get_ports {LEDR[2]}]
+set_output_delay -add_delay  -clock [get_clocks {inst2|altpll_component|auto_generated|pll1|clk[0]}]  328.940 [get_ports {LEDR[3]}]
+set_output_delay -add_delay  -clock [get_clocks {inst2|altpll_component|auto_generated|pll1|clk[0]}]  328.940 [get_ports {LEDR[4]}]
+set_output_delay -add_delay  -clock [get_clocks {inst2|altpll_component|auto_generated|pll1|clk[0]}]  328.940 [get_ports {LEDR[5]}]
+set_output_delay -add_delay  -clock [get_clocks {inst2|altpll_component|auto_generated|pll1|clk[0]}]  328.940 [get_ports {LEDR[6]}]
+set_output_delay -add_delay  -clock [get_clocks {inst2|altpll_component|auto_generated|pll1|clk[0]}]  328.940 [get_ports {LEDR[7]}]
 
 
 #**************************************************************
