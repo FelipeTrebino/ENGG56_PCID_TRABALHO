@@ -1,0 +1,222 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 2020  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and any partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details, at
+https://fpgasoftware.intel.com/eula.
+*/
+(header "graphic" (version "1.4"))
+(pin
+	(input)
+	(rect 208 192 376 208)
+	(text "INPUT" (rect 125 0 153 10)(font "Arial" (font_size 6)))
+	(text "CLOCK_50" (rect 5 0 59 17)(font "Intel Clear" ))
+	(pt 168 8)
+	(drawing
+		(line (pt 84 12)(pt 109 12))
+		(line (pt 84 4)(pt 109 4))
+		(line (pt 113 8)(pt 168 8))
+		(line (pt 84 12)(pt 84 4))
+		(line (pt 109 4)(pt 113 8))
+		(line (pt 109 12)(pt 113 8))
+	)
+	(text "VCC" (rect 128 7 148 17)(font "Arial" (font_size 6)))
+	(annotation_block (location)(rect 152 208 208 232))
+)
+(pin
+	(input)
+	(rect 400 264 568 280)
+	(text "INPUT" (rect 125 0 153 10)(font "Arial" (font_size 6)))
+	(text "SW[0]" (rect 5 0 35 17)(font "Intel Clear" ))
+	(pt 168 8)
+	(drawing
+		(line (pt 84 12)(pt 109 12))
+		(line (pt 84 4)(pt 109 4))
+		(line (pt 113 8)(pt 168 8))
+		(line (pt 84 12)(pt 84 4))
+		(line (pt 109 4)(pt 113 8))
+		(line (pt 109 12)(pt 113 8))
+	)
+	(text "VCC" (rect 128 7 148 17)(font "Arial" (font_size 6)))
+	(annotation_block (location)(rect 328 280 400 304))
+)
+(pin
+	(input)
+	(rect 400 288 568 304)
+	(text "INPUT" (rect 125 0 153 10)(font "Arial" (font_size 6)))
+	(text "IRDA_RXD" (rect 5 0 56 17)(font "Intel Clear" ))
+	(pt 168 8)
+	(drawing
+		(line (pt 84 12)(pt 109 12))
+		(line (pt 84 4)(pt 109 4))
+		(line (pt 113 8)(pt 168 8))
+		(line (pt 84 12)(pt 84 4))
+		(line (pt 109 4)(pt 113 8))
+		(line (pt 109 12)(pt 113 8))
+	)
+	(text "VCC" (rect 128 7 148 17)(font "Arial" (font_size 6)))
+	(annotation_block (location)(rect 336 304 400 328))
+)
+(pin
+	(output)
+	(rect 752 272 928 288)
+	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
+	(text "LEDG[0]" (rect 90 0 128 17)(font "Intel Clear" ))
+	(pt 0 8)
+	(drawing
+		(line (pt 0 8)(pt 52 8))
+		(line (pt 52 4)(pt 78 4))
+		(line (pt 52 12)(pt 78 12))
+		(line (pt 52 12)(pt 52 4))
+		(line (pt 78 4)(pt 82 8))
+		(line (pt 82 8)(pt 78 12))
+		(line (pt 78 12)(pt 82 8))
+	)
+	(annotation_block (location)(rect 936 304 1000 328))
+)
+(pin
+	(output)
+	(rect 752 256 928 272)
+	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
+	(text "LEDR[7..0]" (rect 90 0 145 12)(font "Arial" ))
+	(pt 0 8)
+	(drawing
+		(line (pt 0 8)(pt 52 8))
+		(line (pt 52 4)(pt 78 4))
+		(line (pt 52 12)(pt 78 12))
+		(line (pt 52 12)(pt 52 4))
+		(line (pt 78 4)(pt 82 8))
+		(line (pt 82 8)(pt 78 12))
+		(line (pt 78 12)(pt 82 8))
+	)
+	(annotation_block (location)(rect 936 136 1088 288))
+)
+(symbol
+	(rect 568 232 736 344)
+	(text "RemoteController" (rect 5 0 91 12)(font "Arial" ))
+	(text "inst" (rect 8 96 25 108)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "Clock" (rect 0 0 28 12)(font "Arial" ))
+		(text "Clock" (rect 21 27 49 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "Reset" (rect 0 0 29 12)(font "Arial" ))
+		(text "Reset" (rect 21 43 50 55)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48))
+	)
+	(port
+		(pt 0 64)
+		(input)
+		(text "Serial" (rect 0 0 27 12)(font "Arial" ))
+		(text "Serial" (rect 21 59 48 71)(font "Arial" ))
+		(line (pt 0 64)(pt 16 64))
+	)
+	(port
+		(pt 168 32)
+		(output)
+		(text "Tecla[7..0]" (rect 0 0 51 12)(font "Arial" ))
+		(text "Tecla[7..0]" (rect 104 27 155 39)(font "Arial" ))
+		(line (pt 168 32)(pt 152 32)(line_width 3))
+	)
+	(port
+		(pt 168 48)
+		(output)
+		(text "Ready" (rect 0 0 33 12)(font "Arial" ))
+		(text "Ready" (rect 120 43 153 55)(font "Arial" ))
+		(line (pt 168 48)(pt 152 48))
+	)
+	(parameter
+		"IDLE"
+		"00"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"READ_DATA"
+		"01"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"CHECK"
+		"10"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"OUTPUT"
+		"11"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(drawing
+		(rectangle (rect 16 16 152 96))
+	)
+	(annotation_block (parameter)(rect 736 128 928 224))
+)
+(symbol
+	(rect 376 168 512 248)
+	(text "TrafficController_PLL" (rect 5 0 110 12)(font "Arial" ))
+	(text "inst2" (rect 8 64 30 81)(font "Intel Clear" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "inclk0" (rect 0 0 28 12)(font "Arial" ))
+		(text "inclk0" (rect 21 27 49 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(port
+		(pt 136 32)
+		(output)
+		(text "c0" (rect 0 0 11 12)(font "Arial" ))
+		(text "c0" (rect 106 27 117 39)(font "Arial" ))
+		(line (pt 136 32)(pt 120 32))
+	)
+	(drawing
+		(rectangle (rect 16 16 120 64))
+	)
+)
+(connector
+	(pt 736 264)
+	(pt 752 264)
+	(bus)
+)
+(connector
+	(pt 736 280)
+	(pt 752 280)
+)
+(connector
+	(pt 568 200)
+	(pt 512 200)
+)
+(connector
+	(pt 568 264)
+	(pt 568 200)
+)
+(connector
+	(pt 560 280)
+	(pt 560 272)
+)
+(connector
+	(pt 568 280)
+	(pt 560 280)
+)
+(connector
+	(pt 560 272)
+	(pt 568 272)
+)
