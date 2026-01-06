@@ -1,10 +1,31 @@
 # Quartus generated folders
+/questao_1/db/
+/questao_1/incremental_db/
+/questao_1/output_files/
+/questao_1/greybox_tmp/
+/questao_1/hc_output/
+/questao_1/layout/
+
 /questao_2/db/
 /questao_2/incremental_db/
 /questao_2/output_files/
 /questao_2/greybox_tmp/
 /questao_2/hc_output/
 /questao_2/layout/
+
+/questao_3/db/
+/questao_3/incremental_db/
+/questao_3/output_files/
+/questao_3/greybox_tmp/
+/questao_3/hc_output/
+/questao_3/layout/
+
+/questao_4/db/
+/questao_4/incremental_db/
+/questao_4/output_files/
+/questao_4/greybox_tmp/
+/questao_4/hc_output/
+/questao_4/layout/
 
 # Quartus generated files
 *.bak
@@ -22,8 +43,16 @@
 *.qdf
 
 # ModelSim generated files/folders
+/questao_1/work/
+/questao_1/transcript
 /questao_2/work/
 /questao_2/transcript
+/questao_3/work/
+/questao_3/transcript
+/questao_4/work/
+/questao_4/transcript
 vsim.wlf
 *.mpf
 *.mti
+
+
