@@ -1,1 +1,0 @@
-module RemoteController (Clock, Reset, Serial, Tecla, Ready);
