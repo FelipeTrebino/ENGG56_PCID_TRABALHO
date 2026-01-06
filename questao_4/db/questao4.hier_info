@@ -1,9 +1,0 @@
-|TrafficController
-A => L_O.IN0
-B => L_O.IN1
-C => L_O.IN0
-D => L_O.IN1
-L_O << L_O.DB_MAX_OUTPUT_PORT_TYPE
-N_S << L_O.DB_MAX_OUTPUT_PORT_TYPE
-
-

@@ -1,7 +1,0 @@
-
-State Machine - |RemoteController|state
-Name state.OUTPUT state.CHECK state.READ_DATA state.IDLE 
-state.IDLE 0 0 0 0 
-state.READ_DATA 0 0 1 1 
-state.CHECK 0 1 0 1 
-state.OUTPUT 1 0 0 1 
